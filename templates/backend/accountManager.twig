@@ -1,0 +1,33 @@
+{{ include ('template.twig') }}
+{{ include ('backend/navAdminView.twig') }}
+
+<h1>MON COMPTE</h1><br/>
+
+<form action="/profil" method="post" class="container">
+    {% import 'forms.twig' as forms %}
+
+    <p class ="row">
+        {{forms.inputLabel('lname', 'nom', 'text', 'required', (user.lname))}}
+    </p>
+
+    <p class ="row">
+        {{forms.inputLabel('fname', 'prénom', 'text', 'required', (user.fname))}}
+    </p>
+
+    <p class ="row">
+        {{forms.inputLabel('pseudo', 'pseudo', 'text', 'required', (user.pseudo))}}
+    </p>
+
+    <p class ="row">
+        {{forms.inputLabel('password', 'mot de passe', 'password', 'required', (user.password))}}
+    </p>
+
+    <input type="submit">
+
+</form>
+
+<h3>Mes commentaires</h3>
+
+<section>
+{#    {{include ('backend/updateCommentView.html.twig')}}#}
+</section>

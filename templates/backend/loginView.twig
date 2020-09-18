@@ -1,0 +1,22 @@
+{{ include ('template.twig') }}
+
+{% block content %}
+<h3>Se connecter</h3>
+
+<form action="/connect" method="post" class="container">
+    {% import 'forms.twig' as forms %}
+
+    <p class ="row">
+        {{forms.inputLabel('pseudo', 'pseudo', 'text', 'required', (user.getPseudo ?: ''))}}
+
+    </p>
+    <p class ="row">
+        {{forms.inputLabel('password', 'mot de passe', 'password', 'required')}}
+    </p>
+
+    <p class ="row">
+        <input type="submit" value="se connecter">
+    </p>
+</form>
+
+{% endblock %}

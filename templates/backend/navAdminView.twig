@@ -1,0 +1,14 @@
+<hr/>
+    <nav class="navAdminView">
+        <ul class="nav">
+            {% if session.pseudo %}<li class="nav-item"><a class= "nav-link" href="/profil">Mon compte</a></li> {% endif %}
+            {% if (session.status == "admin" or session.status =="superadmin")  %}
+                <li class="nav-item"><a class= "nav-link" href="/home">Home</a></li>
+                <li class="nav-item"><a class= "nav-link" href="/users">Les membres </a></li>
+                <li class="nav-item"><a class= "nav-link" href="/postsAdmin">Les articles </a></li>
+                <li class="nav-item"><a class= "nav-link" href="/comments" >Les commentaires </a> </li>
+                <li class="nav-item"></li>
+            {% endif %}
+        </ul>
+    </nav>
+<hr/>
