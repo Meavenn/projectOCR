@@ -12,19 +12,21 @@
         <tr>
             <th>ID</th>
             <th>Titre</th>
+            <th>date de parution</th>
             <th>date de création</th>
             <th>Contenu (extrait)</th>
         </tr>
         </thead>
 
         {% for post in posts %}
-            <tr onclick="document.location='/postAdmin/{{post.ID}}'">
-                <a href="/postAdmin/{{post.ID}}">
+            <tr onclick="document.location='/postAdmin/{{post.id}}'">
+{#                <a href="/postAdmin/{{post.id}}">#}
                     <td>{{post.id}}</td>
                     <td>{{post.title}}</td>
-                    <td>{{post.date}}</td>
+                    <td>{{post.date_display|date("d/m/Y")}}</td>
+                    <td>{{post.date_insert|date("d/m/Y")}}</td>
                     <td>{{post.content|slice(0,60)}}(...)</td>
-                </a>
+{#                </a>#}
             </tr>
         {% endfor %}
 

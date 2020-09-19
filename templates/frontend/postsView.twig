@@ -1,0 +1,15 @@
+{{ include ('template.twig') }}
+{% block content %}
+<h1>Liste des articles</h1>
+{% if (content) %}
+    <p class=" alert alert-info">{{ content }}</p>
+{% endif %}
+    <ul class="'listPosts">
+    {% for post in posts %}
+        <li class="listPost">
+            <h3><a href="/post/{{ post.id }}">{{post.title}}</a></h3> publié par <span>{{post.pseudo_author}}</span> le <span>{{post.date_display|date("d/m/Y")}}</span>
+            <p>{{post.content_short}}(...)</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
