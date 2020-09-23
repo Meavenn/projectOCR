@@ -1,0 +1,37 @@
+{{ include ('template.twig') }}
+{{ include ('backend/navAdminView.twig') }}
+
+<h1>HOME</h1>
+
+<form action="/home" method="post" class="container">
+    <h2 data-toggle="collapse" data-target="#section1" aria-expanded="false" aria-controls="section1" class="title-hover">
+        JUMBOTRON
+    </h2>
+        <section class="collapse {{collapse}}" id="section1">
+
+                {% import 'forms.twig' as forms %}
+
+                <p class ="row">
+                    {{forms.inputLabel('title', 'Titre', 'text', 'required', (home.title))}}
+                </p>
+                <p class ="row">
+                    {{forms.inputLabel('tagline', 'Slogan', 'text', 'required', (home.tagline))}}
+                </p>
+        </section>
+    <hr>
+
+    <h2 data-toggle="collapse" data-target="#section2" aria-expanded="false" aria-controls="section2" class="title-hover">
+        PRESENTATION
+    </h2>
+    <section class="collapse {{collapse}}" id="section2">
+
+        {% import 'forms.twig' as forms %}
+
+        <p class ="row">
+            {{forms.textareaLabel('presentation', 'Présentation', 'required', (home.presentation), '', '','','col-10 form-control',10)}}
+        </p>
+
+    </section><br>
+
+    <input type="submit" value="modifier">
+</form>

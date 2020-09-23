@@ -1,0 +1,47 @@
+<form action="/user/{{user.id}}" method="post" class="container">
+
+    {% import 'forms.twig' as forms %}
+
+    <p class ="row">
+        {{forms.inputLabel('lname', 'nom', 'text', 'required', (user.lname))}}
+    </p>
+
+    <p class ="row">
+        {{forms.inputLabel('fname', 'prénom', 'text', 'required', (user.fname))}}
+    </p>
+
+    <p class ="row">
+        {{forms.inputLabel('pseudo', 'pseudo', 'text', 'required', (user.pseudo))}}
+    </p>
+
+    <p class ="row">
+        {{forms.inputLabel('password', 'mot de passe', 'password', 'required', (user.password))}}
+    </p>
+
+    <p class ="row">
+        <label class="col-2">statut </label>
+        <select class="col-6 form-control" name="status" {{ user.status == "superadmin" ? 'disabled' : null }}>
+            <option {{ user.status == "member" ? "selected" : null }} value="member">membre</option>
+            <option {{ user.status == "admin" ? "selected" : null }} value ="admin">administrateur</option>
+            <option {{ user.status == "superadmin" ? "selected" : null }} value ="superadmin">super administrateur</option>
+        </select>
+    </p>
+
+    <p class ="row">
+        <input type="submit" value="modifier" class="btn btn-light">
+    </p>
+
+</form>
+
+<br>
+<section>
+    <h3>Les commentaires</h3>
+    {% for comment in comments %}
+        <form action="comment/{{comment.id}}" method="post" class="card" style="margin: 15px">
+            {{include ('backend/admin/commentsUpdateManager.twig')}}
+        </form>
+    {% endfor %}
+</section>
+
+
+

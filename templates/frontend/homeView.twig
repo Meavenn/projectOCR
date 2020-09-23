@@ -2,3 +2,44 @@
 
 <h1>Page d'accueil</h1>
 
+<h1>{{home.title}}</h1>
+
+<section class='row'>
+    <img src="{{home.logo}}" width="40%" >
+    <div class="col align-self-end">
+        <blockquote style="font-size: 1.5rem">{{home.tagline}}</blockquote>
+    </div>
+</section>
+
+<hr>
+
+<section class='row'>
+    <p class="col-8">{{home.presentation}}</p>
+    <img src="{{home.photo}}">
+
+</section>
+
+<hr>
+
+<section class='row'>
+    <h3>M'envoyer un message</h3><br/>
+    <form action="/email" method="post" class="container">
+        {% import 'forms.twig' as forms %}
+
+        <p class ="row">
+            {{forms.inputLabel('email', 'Adresse mél', 'email', 'required')}}
+        </p>
+
+        <p class ="row">
+            {{forms.textareaLabel('content', 'Message', 'required')}}
+        </p>
+
+        <p class ="row">
+            <input type="submit" value="Envoyer">
+        </p>
+
+
+    </form>
+
+
+</section>
