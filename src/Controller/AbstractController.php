@@ -10,15 +10,16 @@ use App\Http\Request;
  */
 abstract class AbstractController {
 
-    protected $request;
-
     public function request(){
         return new Request();
     }
 
+    /**
+     * @return int
+     */
     public function getIdConnect() :int{
         if(isset($this->request()->session['id'])){
-            return $this->idConnect = $this->request()->session['id'];
+            return $this->request()->session['id'];
         }
     }
 
@@ -27,13 +28,13 @@ abstract class AbstractController {
      */
     public function getPseudoConnect() :string{
         if(isset($this->idConnect)){
-            return $this->pseudoConnect = $this->request()->session['pseudo'];
+            return $this->request()->session['pseudo'];
         }
     }
 
     public function isAdmin(){
         if($this->request()->session['status']!="member"){
-            $this->isAdmin = true;
+            return true;
         }
     }
 }

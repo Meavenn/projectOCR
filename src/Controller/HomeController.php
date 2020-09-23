@@ -50,9 +50,9 @@ class HomeController extends AbstractController {
     }
 
     public function sendEmail(){
-        $transport = (new \Swift_SmtpTransport('smtp.gmail.com', 465))
-//            ->setUsername('mlancien1@gmail.com')
-//            ->setPassword('Marion84')
+        $transport = (new \Swift_SmtpTransport('smtp.googlemail.com', 465, 'ssl'))
+            ->setUsername('mlancien1@gmail.com')
+            ->setPassword('Marion84')
         ;
 
         // Create the Mailer using your created Transport

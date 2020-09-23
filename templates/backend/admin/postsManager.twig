@@ -1,11 +1,11 @@
 {{ include ('template.twig') }}
 {{ include ('backend/navAdminView.twig') }}
 
-<h1>LES ARTICLES</h1><br/>
+<h1 data-toggle="collapse" data-target="#getPost" aria-expanded="false" aria-controls="getPost" class="title-hover">LES ARTICLES</h1><br/>
 
 <a href="/newPost">+ Ajouter un article</a>
 
-<section class="collapse {{collapse}}" id="postsList">
+<section class="collapse {{collapse}}" id="getPost">
     <table class="table table-hover ">
 
         <thead>

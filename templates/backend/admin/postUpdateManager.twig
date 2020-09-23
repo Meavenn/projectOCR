@@ -16,7 +16,7 @@
         <div class="form-group">
             {{forms.inputLabel('', 'Date d\'affichage', 'text','', (post.date_display), 'displayDate', 'disabled')}}
             <a href="#" data-toggle="collapse" data-target="#updateDate" aria-expanded="false" aria-controls="updateDate">Modifier la date d'affichage</a>
-            <span class="collapse" id="updateDate">{{forms.input('date_display', 'datetime-local','', 'displayDate', '','col-5')}}</span>
+            <span class="collapse" id="updateDate">{{forms.input('date_display', 'datetime-local','', 'displayDate')}}</span>
         </div>
 
         <input class="form-control col-3" type="submit" value="Modifier">
@@ -26,12 +26,13 @@
     <form class="col-9" method="post" action="/postDelete/{{post.id}}">
         <input class="form-control col-3" type="submit" value="Supprimer" onclick="return confirm('Confirmer la suppression de l\'article ?');">
     </form>
-
 </section>
 <br>
-
-{#<h3 data-toggle="collapse" data-target="#setCommentsPost" aria-expanded="false" aria-controls="setCommentsPost" class="title-hover">Les commentaires</h3>#}
-{#<br>#}
-{#<section class="collapse show" id="setCommentsPost">#}
-{#    {{include ('backend/updateCommentView.html.twig')}}#}
-{#</section>#}
+<section>
+    <h3>Les commentaires</h3>
+    {% for comment in comments %}
+        <form action="comment/{{comment.ID}}" method="post" class="card" style="margin: 15px">
+            {{include ('backend/admin/commentsUpdateManager.twig')}}
+        </form>
+    {% endfor %}
+</section>

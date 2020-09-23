@@ -23,7 +23,7 @@ Abstract class Db extends PDO {
 
     public function exist($table, $id){
         if(isset($id) && $id>0){
-            if ($this->callDbCount([$table,['id'=>'$id']])[0])
+            if ($this->callDbCount([$table,['id'=>$id]])[0])
                 return true;
         }else{
             return false;
@@ -89,10 +89,10 @@ Abstract class Db extends PDO {
             }
             $request = rtrim($request, "AND");
             $request .= 'ORDER BY ' . $order;
-
+            //var_dump($request);
             $req = $this->prepare($request);
             @$req->execute([$table, $condition, $order, $datas]);
-
+            //echo"<pre>";var_dump($req->fetchAll());echo"</pre>";
             return $req->fetchAll();
         } catch (\PDOException $e) {
             die($e->getMessage());

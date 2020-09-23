@@ -13,15 +13,15 @@ class Post extends AbstractModel {
     private
         $id,
         $title,
-        $idAuthor,
-        $pseudoAuthor,
+        $id_author,
+        $pseudo_author,
         $content,
-        $shortContent,
-        $displayDate,
-        $loginInsert,
-        $dateInsert,
-        $loginMod,
-        $dateMod;
+        $short_content,
+        $date_display,
+        $login_insert,
+        $date_insert,
+        $login_mod,
+        $date_mod;
 
     /***** GETTERS *****/
     public function getId() {
@@ -33,11 +33,11 @@ class Post extends AbstractModel {
     }
 
     public function getIdAuthor() {
-        return $this->idAuthor;
+        return $this->id_author;
     }
 
     public function getPseudoAuthor() {
-        return $this->pseudoAuthor;
+        return $this->pseudo_author;
     }
 
     public function getContent() {
@@ -45,38 +45,44 @@ class Post extends AbstractModel {
     }
 
     public function getShortContent() {
-        return $this->shortContent;
+        return $this->short_content;
     }
 
     public function getDisplayDate() {
-        return $this->displayDate;
+        return $this->date_display;
     }
 
     public function getLoginInsert() {
-        return $this->loginInsert;
+        return $this->login_insert;
     }
 
     public function getDateInsert() {
-        return $this->dateInsert;
+        return $this->date_insert;
     }
 
     public function getLoginMod() {
-        return $this->loginMod;
+        return $this->login_mod;
     }
 
     public function getDateMod() {
-        return $this->dateMod;
+        return $this->date_mod;
     }
-
 
     /***** SETTER ******/
     /**
-     * @param mixed $idAuthor
+     * @param mixed $id
      * @return Post
      */
-    public function setIdAuthor(int $idAuthor) {
+
+    public function setId(int $id) {
+        if (isset($id)) {
+            return $this->id =(int)htmlspecialchars($id);
+        }
+    }
+
+    public function setId_author(int $idAuthor) {
         if (isset($idAuthor)) {
-            return $this->idAuthor = htmlspecialchars($idAuthor);
+            return $this->id_author = htmlspecialchars($idAuthor);
         }
     }
 
@@ -93,15 +99,15 @@ class Post extends AbstractModel {
     /**
      * @param string|null $pseudoAuthor
      */
-    public function setPseudoAuthor($pseudoAuthor = NULL) {
+    public function setPseudo_author($pseudoAuthor = NULL) {
         if (is_string($pseudoAuthor)) {
-            return $this->pseudoAuthor = $pseudoAuthor;
+            return $this->pseudo_author = $pseudoAuthor;
         } else {
             if (is_int($pseudoAuthor)) {
-                return $this->pseudoAuthor = $this->getUser($pseudoAuthor)->getPseudo();
+                return $this->pseudo_author = $this->getUser($pseudoAuthor)->getPseudo();
             } else {
                 if (isset($this->idAuthor)) {
-                    return $this->pseudoAuthor = $this->getUser($this->idAuthor)->getPseudo();
+                    return $this->pseudo_author = $this->getUser($this->idAuthor)->getPseudo();
                 }
             }
         }
@@ -122,24 +128,24 @@ class Post extends AbstractModel {
      * @param       $content
      * @return string
      */
-    public function setShortContent(string $shortContent = NULL, $content = NULL) {
+    public function setContent_short(string $shortContent = NULL, $content = NULL) {
         if (!isset($content)) {
             $content = $this->getContent();
         }
         if (!isset($shortContent) || (strlen($shortContent) > 100)) {
-            return $this->shortContent = substr($this->setContent($content), 0, 100);
+            return $this->short_content = substr($this->setContent($content), 0, 100);
         }
-        return $this->shortContent = htmlspecialchars($shortContent);
+        return $this->short_content = htmlspecialchars($shortContent);
     }
 
     /**
      * @param mixed $displayDate
      */
-    public function setDisplayDate($displayDate) {
+    public function setdate_display($displayDate) {
         if (isset($displayDate)) {
-            return $this->displayDate = $displayDate;
+            return $this->date_display = $displayDate;
         } else {
-            return $this->displayDate = date('Y-m-d H:i:s');
+            return $this->date_display = date('Y-m-d H:i:s');
         }
     }
 
@@ -147,22 +153,28 @@ class Post extends AbstractModel {
      * @param null $loginInsert
      * @return mixed
      */
-    public function setLoginInsert($loginInsert = NULL) {
-        if (isset($this->idConnect)) {
-            return $this->loginInsert = $this->getPseudoConnect();
+    public function setLogin_insert($loginInsert = NULL) {
+        $idConnect = $this->getIdConnect();
+        if (isset($idConnect)) {
+            return $this->login_insert = $this->getPseudoConnect();
         } else {
             if (isset($loginInsert)) {
-                return $this->loginInsert = htmlspecialchars($loginInsert);
+                return $this->login_insert = htmlspecialchars($loginInsert);
             }
         }
     }
 
-    public function setLoginMod($loginMod = NULL) {
-        if (isset($this->idConnect)) {
-            return $this->loginMod = $this->getPseudoConnect();
+    /**
+     * @param null $loginMod
+     * @return string
+     */
+    public function setLogin_mod($loginMod = NULL) {
+        $idConnect = $this->getIdConnect();
+        if (isset($idConnect)) {
+            return $this->login_mod = $this->getPseudoConnect();
         } else {
             if (isset($loginMod)) {
-                return $this->loginMod = htmlspecialchars($loginMod);
+                return $this->login_mod = htmlspecialchars($loginMod);
             }
         }
     }
@@ -170,9 +182,9 @@ class Post extends AbstractModel {
     /**
      * @return false|string
      */
-    public function setDateInsert() {
-        if ($this->dateInsert) {
-            return $this->dateInsert = $this->getDateInsert();
+    public function setDate_insert($dateInsert) {
+        if ($dateInsert) {
+            return $this->date_insert = $dateInsert;
         } else {
             return new \DateTime();
         }
@@ -181,7 +193,7 @@ class Post extends AbstractModel {
     /**
      *
      */
-    public function setDateMod() {
-        return $this->dateMod = new \DateTime();
+    public function setDate_mod() {
+        return $this->date_mod = new \DateTime();
     }
 }

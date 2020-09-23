@@ -26,7 +26,9 @@ abstract class AbstractModel {
             $this->hydrate($data);
         }
     }
-
+protected function request(){
+        return new Request();
+}
 
     /**
      * @param array $data
@@ -64,18 +66,10 @@ abstract class AbstractModel {
 
     public function isAdmin() {
         if ($this->request()->session['status'] != "member") {
-            $this->isAdmin = true;
+            return $this->isAdmin = true;
         }
     }
 
-    /**
-     * @param $id
-     * @return User
-     */
-    public function getUser(int $id) {
-       $data = (new UsersRepository())->callDbRead(['user', ['id' => $id]])[0];
-       return new User($data);
-    }
 
     public function checkData($values) {
         foreach ($values as $key => $value) {
@@ -85,5 +79,24 @@ abstract class AbstractModel {
             }
         }
         return $values;
+    }
+
+    // TODO : est-ce à placer dans un  AbstractModel ?
+    /**
+     * @param $id
+     * @return User
+     */
+    public function getUser(int $id) {
+       $data = (new UsersRepository())->callDbRead(['user', ['id' => $id]])[0];
+       return new User($data);
+    }
+
+    /**
+     * @param int $id
+     * @return Post
+     */
+    public function getPost(int $id) {
+        $data = (new PostsRepository())->callDbRead(['post', ['id' => $id]])[0];
+        return new Post($data);
     }
 }

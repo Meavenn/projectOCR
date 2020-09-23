@@ -14,6 +14,14 @@ use DateTimeZone;
 class PostsRepository extends Db {
     protected $table = 'post';
 
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function postExist($id){
+        return $this->exist($this->table,$id);
+    }
+
     public function getPosts() {
         return $this->callDbRead([$this->table]);
     }
@@ -68,4 +76,6 @@ class PostsRepository extends Db {
     public function deletePost($idPost){
         $this->callDbDelete([$this->table, ['id' => $idPost]]);
     }
+
+
 }
