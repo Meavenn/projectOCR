@@ -37,7 +37,7 @@ class Request
     public $files;
 
 
-    public function __construct()//array $server, array $get, array $post, array $cookie, array $session, array $request, array $files)
+    public function __construct()
     {
         $this->server = $_SERVER;
         $this->get = $_GET;
@@ -61,50 +61,40 @@ class Request
             $_FILES
         );
     }
-
-    public function getServer()
-    {
-        return $this->server;
-    }
-
-    public function getGet()
-    {
-        return $this->get;
-    }
-
-    public function getPost()
-    {
-        return $this->post;
-    }
-
-    public function getCookie()
-    {
-        return $this->cookie;
-    }
-
-    public function getSession()
-    {
-        return $this->session;
-    }
-
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    public function getData($key)
-    {
-        return isset($_GET[$key]) ? $_GET[$key] : null;
-    }
-
-    public function postData($key)
-    {
-        return isset($_POST[$key]) ? $_POST[$key] : null;
-    }
-
-    public function isMethod(string $method)
-    {
-        return $this->getServer()['REQUEST_METHOD'] === $method;
-    }
+//
+//    public function getServer()
+//    {
+//        return $this->server;
+//    }
+//
+//    public function getGet()
+//    {
+//        return $this->get;
+//    }
+//
+//    public function getPost()
+//    {
+//        return $this->post;
+//    }
+//
+//    public function getCookie()
+//    {
+//        return $this->cookie;
+//    }
+//
+//    public function getSession()
+//    {
+//        return $this->session;
+//    }
+//
+//    public function getRequest()
+//    {
+//        return $this->request;
+//    }
+//
+//    public function isMethod(string $method)
+//    {
+//        return $this->getServer()['REQUEST_METHOD'] === $method;
+//    }
 
 }

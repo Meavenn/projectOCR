@@ -1,15 +1,10 @@
 <?php
 
 
-namespace App\router;
+namespace App\Router;
 
 use App\Http\Request;
-//use App\controller\HomeController;
 
-require_once 'Route.php';
-//require_once '../src/controller/HomeController.php';
-//require_once '../src/controller/UserController.php';
-//require_once '../src/Http/Request.php';
 
 
 class Router

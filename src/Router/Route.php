@@ -1,12 +1,10 @@
 <?php
 
-namespace App\router;
+namespace App\Router;
 
-require_once '../src/controller/PostController.php';
-require_once '../src/controller/CommentController.php';
 use App\controller\PostController;
 use App\controller\CommentController;
-use App\controller\HomeController;
+use App\Controller\HomeController;
 
 
 class Route
@@ -60,7 +58,7 @@ class Route
         if(is_string($this->callable))
         {
             $params = explode('#', $this->callable);
-            $controller = "App\\controller\\" . $params[0] . "Controller";
+            $controller = "App\\Controller\\" . $params[0] . "Controller";
             $controller = new $controller;
             return call_user_func_array([$controller, $params[1]], $this->matches);
         }else {
