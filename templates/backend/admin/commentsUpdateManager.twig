@@ -1,0 +1,30 @@
+{% set disabled = comment.idAuthor == session.id or comment.id_author == session.id ? null : ' disabled' %}
+{% set admin = session.status == "member" ? ' disabled' : '' %}
+
+<p class="card-header">Commentaire de {{ comment.pseudo_author }}{{ comment.pseudoAuthor }}  - {{ comment.dateInsert ?(comment.dateInsert|date("d/m/Y")): (comment.date_insert|date("d/m/Y")) }}</p>
+<p class="card-body">
+
+    <textarea {{ disabled }} class="form-control" name="content">{{ comment.content }}</textarea>
+    {% if disabled %}
+        <textarea name="content" style="display: none">{{ comment.content }}</textarea>
+    {% endif %}
+
+    <input type="hidden" value="{{ comment.idAuthor }}" name="id_author">
+    <input type="hidden" value="{{ comment.pseudoAuthor }}" name="pseudo_author">
+
+    <select name="id_post" class=" form-control" {{ admin }}>
+        {% for post in posts %}
+            <option {{ (post.id) == (comment.idPost) ? 'selected':'' }} value={{ post.id }}>{{ post.title }}</option>
+        {% endfor %}
+    </select>
+
+    <select name="displayed_status" class="form-control" {{ admin }}>
+        <option {{ comment.displayedStatus == 'pending' or comment.displayed_status == 'pending' ? "selected" : null }} value="pending">en attente</option>
+        <option {{ comment.displayed_status == 'granted' or  comment.displayedStatus == 'granted' ? "selected" : null }} value="granted">validé</option>
+        <option {{ comment.displayedStatus == 'rejected' or comment.displayed_status == 'rejected' ? "selected" : null }} value="rejected">non validé</option>
+    </select>
+    <input type="submit" class="btn btn-light" value="modifier">
+
+</p>
+
+

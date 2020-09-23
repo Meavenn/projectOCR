@@ -16,11 +16,16 @@ use Twig\Loader\FilesystemLoader;
 $request = new Request();
 $router = new Router($request->server['REQUEST_URI']);
 
+/****** FRONTEND ******/
+
 $router->get('/', 'Home#goHome');
 
 //Affichage des posts et des commentaires
 $router->get('/posts', 'Post#getPosts');
+$router->get('/post/:id', 'Post#getPost')->with('id', '[0-9]+');
+$router->post('/post/:id', 'Comment#addComment')->with('id', '[0-9]+');
 
+$router->post('/email', 'Home#sendEmail');
 
 
 /****** BACKEND ******/
@@ -38,9 +43,29 @@ $router->get('/profil', 'User#getUser');
 $router->post('/profil', 'User#updateUser');
 
 // Admins only !
+
+/* onglet 'Home' */
+$router->get('/home', 'Home#getHomeAdmin');
+$router->post('/home', 'Home#updateHomeAdmin');
+
 /* onglet 'Les articles' */
 $router->get('/postsAdmin', 'Post#getPostsAdmin');
 $router->get('/newPost', 'Post#newPost');
 $router->post('/postsAdmin', 'Post#createPost');
+$router->get('/postAdmin/:id', 'Post#getPostAdmin')->with('id', '[0-9]+');
+$router->post('/postAdmin/:id', 'Post#updatePostAdmin')->with('id', '[0-9]+');
+$router->post('/postDelete/:id', 'Post#deletePost')->with('id', '[0-9]+');
+$router->post('/postAdmin/comment/:id', 'Post#updateCommentPostAdmin')->with('id', '[0-9]+');
+
+/* onglet 'Les commentaires' */
+$router->get('/comments', 'Comment#getCommentsAdmin');
+$router->post('/comments', 'Comment#getFilteredComments');
+$router->post('/comments/comment/:id', 'Comment#updateCommentAdmin')->with('id', '[0-9]+');
+
+/* onglet 'Les membres' */
+$router->get('/users', 'User#getUsersAdmin');
+$router->get('/user/:id', 'User#getUserAdmin')->with('id', '[0-9]+');
+$router->post('/user/:id', 'User#updateUserAdmin')->with('id', '[0-9]+');
+
 
 $router->run();

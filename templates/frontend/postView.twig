@@ -1,44 +1,39 @@
 {{ include ('template.twig') }}
 {% block content %}
 <h2><strong>{{post.title}}</strong></h2>
-
-<em> Publié le {{post.date_display|date("d/m/Y")}}</em><br/>
+<em> Publié le {{post.displayDate|date("d/m/Y")}}</em> par {{post.pseudoAuthor}}<br/>
 {{post.content}}
-
 <section class="comments">
+    <br>
+    <h3>COMMENTAIRES</h3>
+    {% if comments %}
 
-{#    <h3>COMMENTAIRES</h3>#}
+    {% for comment in comments %}
+        <p class="comment">
+            <strong>{{comment.pseudoAuthor}}</strong><em> - publié le {{comment.dateInsert|date("d/m/Y à H:i")}}</em><br/>
+            {{comment.content}}
+        </p><br/>
+    {% endfor %}
+{% else %}
+    <p>{{ noComment }}</p>
+    {% endif %}
+</section>
+<br>
+<section class="addComment">
+    <h4>Ajouter un commentaire</h4>
 
-{#    {% for comment in comments %}#}
-{#        <p class="comment">#}
-{#            <strong>{{comment.author}}</strong><em> - publié le {{comment.date}}</em><br/>#}
-{#            {{comment.comment}}#}
-{#        </p><br/>#}
-{#    {% endfor %}#}
+    {% if not session.status %}
+        <p>Pour ajouter un commentaire, <a href="/connect/login">vous devez être connecté</a>.</p>
+    {% else %}
+
+        <form action="/post/{{post.id}}" method="post" class="container">
+            {% import 'forms.twig' as forms %}
+            <p class="row">
+                {{forms.textareaLabel('content', 'commentaire', 'required')}}
+            <p class="row"><input type="submit" value="Ajouter"></p>
+        </form>
+
+    {% endif %}
 
 </section>
-
-{#<section class="addComment">#}
-{#    <h4>Ajouter un commentaire</h4>#}
-
-{#    <!-- --><?php /*if($_SESSION['user_type']!="member" && $_SESSION['user_type']!="admin"): */?>#}
-{#    {% if not session.user_type %}#}
-{#        <p>Pour ajouter un commentaire, <a href="/connect/login">vous devez être connecté</a>.</p>#}
-
-{#    {% else %}#}
-{#        <?php /*else: */?>#}
-
-{#        <form action="/posts/{{post.ID}}" method="post" class="container">#}
-{#            {% import 'backend/forms.twig' as forms %}#}
-{#            <p class="row">#}
-{#                {{forms.textareaLabel('comment', 'commentaire', 'required')}}#}
-
-{#                <!--                <label class="col-2"> commentaire </label><textarea name="comment" class="col-4" required></textarea></p>-->#}
-{#            <p class="row"><input type="submit" value="Ajouter"></p>#}
-{#        </form>#}
-
-{#    {% endif %}#}
-{#    <!-- <?php /*endif; */?>#}
-{# -->#}
-{#</section>#}
 {% endblock %}
