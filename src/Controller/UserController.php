@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Controller;
 
+use App\Model\Comment;
 use App\Model\Repository\CommentsRepository;
 use App\Model\Repository\PostsRepository;
 use App\Model\Repository\UsersRepository;
@@ -11,12 +13,15 @@ use App\Model\User;
  *
  * @author marion
  */
-class UserController extends AbstractController {
-    private function getUserModel() {
+class UserController extends AbstractController
+{
+    private function getUserModel()
+    {
         return new User(NULL);
     }
 
-    private function getUsersRepository() {
+    private function getUsersRepository()
+    {
         return new UsersRepository();
     }
 
@@ -24,18 +29,21 @@ class UserController extends AbstractController {
      * @param $id
      * @return User
      */
-    protected function setUser($id): User {
+    protected function setUser($id): User
+    {
         return new User($this->getUsersRepository()->getUser($id));
     }
 
-    public function createAccount() {
+    public function createAccount()
+    {
         include '../config/includeTwig.php';
         echo $twig->render('/backend/newUserView.twig', [
             'session' => $this->request()->session
         ]);
     }
 
-    public function addUser() {
+    public function addUser()
+    {
         //on récupère les données du formulaire
         $values = [];
         foreach ($this->request()->post as $column => $value) {
@@ -50,7 +58,7 @@ class UserController extends AbstractController {
             if ($user['pseudo'] == $values['pseudo']) {
                 include '../config/includeTwig.php';
                 echo $twig->render('/backend/newUserView.twig', [
-                    'alert'   => "Le pseudo existe déjà. Veuillez en choisir un autre ou vous connecter.",
+                    'alert' => "Le pseudo existe déjà. Veuillez en choisir un autre ou vous connecter.",
                     'session' => $this->request()->session
                 ]);
                 die();
@@ -65,17 +73,19 @@ class UserController extends AbstractController {
         header('Location: /connect/login');
     }
 
-    public function connectInterface(User $user = NULL) {
+    public function connectInterface(User $user = NULL)
+    {
         include '../config/includeTwig.php';
         echo $twig->render('/backend/loginView.twig', [
-            'user'    => $user,
+            'user' => $user,
             'session' => $this->request()->session
         ]);
     }
 
-    public function newSession() {
+    public function newSession()
+    {
         $values = [
-            'pseudo'   => $this->request()->post['pseudo'],
+            'pseudo' => $this->request()->post['pseudo'],
             'password' => $this->request()->post['password']
         ];
 
@@ -107,29 +117,25 @@ class UserController extends AbstractController {
         }
     }
 
-    public function disconnect() {
+    public function disconnect()
+    {
         session_destroy();
         header('Location: /');
     }
 
     public function getUser() // GET
     {
-        include '../config/includeTwig.php';
         $idUser = $this->getIdConnect();
         if ($idUser) {
-            $user = $this->setUser($idUser);
-            $users = $this->getUsersRepository()->getUsers();
-            //$comments   = $this->repository->callDbRead(['comments', ['user_id'=> $idUser], 'comment_date DESC']);
-            //$posts      = $this->allPosts;
+            $aTwig = [
+                'user' => $this->setUser($idUser),
+                'users' => $this->getUsersRepository()->getUsers(),
+                'comments' => (new CommentsRepository())->getCommentsAuthor($idUser),
+                'posts' => (new PostsRepository())->getPosts()
+            ];
 
-
-            echo $twig->render('/backend/accountManager.twig', [
-                'user'    => $user,
-                'users'   => $users,
-                //'comments' => $comments,
-                //'posts'    => $posts,
-                'session' => $this->request()->session
-            ]);
+            include '../config/includeTwig.php';
+            echo $twig->render('/backend/accountManager.twig', $aTwig);
         } else {
             header('Location: /connect/login');
         }
@@ -190,7 +196,12 @@ class UserController extends AbstractController {
         }
     }
 
-    public function getUserAdmin($idUser) {
+    public function getUserSelectedAdmin(){
+        $this->getUserAdmin($this->request()->post['userId']);
+}
+
+    public function getUserAdmin($idUser)
+    {
         if ($this->isAdmin()) {
             $User = new User ($this->getUsersRepository()->getUser($idUser));
             if ($User) {
@@ -198,9 +209,9 @@ class UserController extends AbstractController {
 
                 $aTwig = [
                     'comments' => (new CommentsRepository())->getCommentsAuthor($idUser),
-                    'posts'    => (new PostsRepository())->getPosts(),
-                    'users'    => $this->getUsersRepository()->getUsers(),
-                    'user'     => $User
+                    'posts' => (new PostsRepository())->getPosts(),
+                    'users' => $this->getUsersRepository()->getUsers(),
+                    'user' => $User
                 ];
 
                 include '../config/includeTwig.php';
@@ -212,5 +223,20 @@ class UserController extends AbstractController {
         } else {
             header('Location: /connect/login');
         }
+    }
+
+    public function updateCommentUserAdmin($idComment){
+        $Comment = new Comment((new CommentsRepository())->getComment($idComment));
+        (new CommentController())->updateComment($idComment);
+
+        header('Location: /user/'.$Comment->getIdAuthor());
+    }
+
+    public function updateCommentUser($idComment){
+        $Comment = new Comment((new CommentsRepository())->getComment($idComment));
+        (new CommentController())->updateComment($idComment);
+
+
+        header('Location: /profil');
     }
 }

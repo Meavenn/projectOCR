@@ -44,7 +44,11 @@ class UsersRepository extends Db {
     }
 
     public function getUser($id) {
-        return $this->callDbRead([$this->table, ['id' => $id]])[0];
+        //$user= $this->callDbRead([$this->table, ['id' => $id]])[0];
+        if(isset($this->callDbRead([$this->table, ['id' => $id]])[0])){
+            return $this->callDbRead([$this->table, ['id' => $id]])[0];
+        }
+
     }
 
     public function createUser(array $values) {
@@ -63,4 +67,6 @@ class UsersRepository extends Db {
         }
     }
 }
+
+
 

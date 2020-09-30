@@ -48,12 +48,16 @@ Abstract class Db extends PDO {
             $request = rtrim($request, ",");
             $request .= ") VALUES (";
             foreach ($values as $column => $value) {
+                $value = addslashes($value);
                 $request .= " '$value',";
+
             }
             $request = rtrim($request, ",");
             $request .= ")";
             $req = $this->prepare($request);
-            $req->execute([$table, $values]);
+
+
+            $req->execute($values);
 
             return $req->fetchAll();
         } catch (\PDOException $e) {
@@ -73,7 +77,7 @@ Abstract class Db extends PDO {
 
     /**
      * @param          $table     : SQL table's name,  for example 'users'
-     * @param string[] $condition : associative array ($key => $value) for example : ['id' = 1, 'name' = 'Dupont']
+     * @param array[] $condition : associative array ($key => $value) for example : ['id' = 1, 'name' = 'Dupont']
      * @param string   $order     : for example 'creation_date'
      * @param string   $datas     : for example 'ID, name, DATE_FORMAT(creation_date, "%d/%m%/%Y") AS date'
      * @return array
@@ -100,7 +104,7 @@ Abstract class Db extends PDO {
     }
 
     /**
-     * @param $params [$table :string, $condition :array[$key=>"'"$value"'"], $orderBy :string]
+     * @param $params [$table :string, $condition :array[$key=>"'"$value"'"], $orderBy :string, $datas :string]
      * @return array
      */
     public function callDbRead($params): array {
@@ -119,6 +123,7 @@ Abstract class Db extends PDO {
         try {
             $request = "UPDATE $table SET";
             foreach ($values as $column => $value) {
+                $value = addslashes($value);
                 $request .= " $column = '$value',";
             }
             $request = rtrim($request, ",");
@@ -131,7 +136,6 @@ Abstract class Db extends PDO {
                 }
             }
             $request = rtrim($request, "AND");
-
             $req = $this->prepare($request);
             @$req->execute([$table, $values, $condition]);
 

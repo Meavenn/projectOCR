@@ -8,13 +8,14 @@
     {% if disabled %}
         <textarea name="content" style="display: none">{{ comment.content }}</textarea>
     {% endif %}
+<block class="displayed">
+    <input type="text" value="{{ comment.id_author }}{{ comment.idAuthor }}" name="id_author">
+    <input type="text" value="{{ comment.pseudo_author }}{{ comment.pseudoAuthor }}" name="pseudo_author">
+    </block>
 
-    <input type="hidden" value="{{ comment.idAuthor }}" name="id_author">
-    <input type="hidden" value="{{ comment.pseudoAuthor }}" name="pseudo_author">
-
-    <select name="id_post" class=" form-control" {{ admin }}>
+    <select name="id_post" class="form-control" {{ admin }}>
         {% for post in posts %}
-            <option {{ (post.id) == (comment.idPost) ? 'selected':'' }} value={{ post.id }}>{{ post.title }}</option>
+            <option {{ (post.id) == (comment.idPost)+(comment.id_post) ? 'selected':'' }} value={{ post.id }}>{{ post.title }}</option>
         {% endfor %}
     </select>
 

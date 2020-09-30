@@ -98,6 +98,9 @@ class CommentController extends AbstractController {
         }
 
         try {
+//            echo'<pre>';
+//            var_dump($values);
+//            echo'</pre>';
             $this->getCommentsRepository()->updateComment($values, $id);
         } catch (\Exception $e) {
             die('Error : ' . $e->getMessage());

@@ -46,10 +46,8 @@ protected function request(){
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getIdConnect(): int {
+
+    public function getIdConnect() {
         if (isset($this->request()->session['id'])) {
             return $this->idConnect = $this->request()->session['id'];
         }

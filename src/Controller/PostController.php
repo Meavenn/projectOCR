@@ -30,9 +30,8 @@ class PostController extends AbstractController {
                 'content' => 'Aucun article n\'est encore disponible. Un peu de patience !'
             ];
         } else {
-            $posts = [];
             $aTwig = [
-                'posts' => $this->getPostsRepository()->getDisplayedPosts()
+                'posts' => $this->getPostsRepository()->getDisplayedPosts(false)
             ];
         }
 
@@ -72,7 +71,6 @@ class PostController extends AbstractController {
             'post'      => $oPost,
             'comments'  => $comments,
             'noComment' => $noComment
-            //'pending_comments' => $this->pending_comments
         ];
 
         include '../config/includeTwig.php';
@@ -107,10 +105,9 @@ class PostController extends AbstractController {
         echo $twig->render('/backend/admin/newPostsManager.twig', $aTwig);
     }
 
-    public function createPost() {
-        // on récupère les données transmises par le formulaire
+    public function chekPostData($postValues){
         $values = [];
-        foreach ($this->request()->post as $key => $value) {
+        foreach ($postValues as $key => $value) {
             if ($value) {
                 $values [$key] = $value;
             }
@@ -118,15 +115,25 @@ class PostController extends AbstractController {
         $values += [
             'id_author'        => $this->getIdConnect(),
             'pseudo_author'    => $this->getPostModel()->getUser($this->getIdConnect())->getPseudo(),
-            'content_short'    => $this->getPostModel()->setShortContent($this->request()->post['content_short'] ?: NULL, $values['content']),
+            'content_short'    => !$this->request()->post['content_short'] ? $values['content'] : '',
             'login_insert'     => $this->getIdConnect(),
             'displayed_status' => 0
         ];
-
         // on vérifie que les données correspondent à la class Post
         $this->getPostModel()->checkData($values);
+
+        return $values;
+    }
+
+    public function createPost() {
+        // on récupère les données transmises par le formulaire
+        $postValues = $this->request()->post;
+
+        // on vérifie qu'elles correspondent à Post
+        $this->chekPostData($postValues);
+
         // on insère les données dans la bdd
-        $this->getPostsRepository()->createPost($values);
+        $this->getPostsRepository()->createPost($postValues);
         $this->getPostsAdmin();
     }
 
@@ -141,26 +148,25 @@ class PostController extends AbstractController {
             'posts'    => $this->getPostsRepository()->getPosts(),
             'post'     => $this->getPostsRepository()->getPost($idPost),
             'comments' => $comments
-            //'pending_comments' => $this->pending_comments
         ];
-//        echo '<pre>';
-//        var_dump($comments);
-//        echo '</pre>';
         include '../config/includeTwig.php';
         echo $twig->render('/backend/admin/postUpdateManager.twig', $aTwig);
+    }
+
+
+    public function getPostSelectedAdmin(){
+        $this->getPostAdmin($this->request()->post['postId']);
     }
 
     public function updatePostAdmin($idPost) {
         if (!isset($idPost) || $idPost < 1) {
             throw new \Exception('Cet article n’existe pas !');
         }
-        $values = [];
-        foreach ($this->request()->post as $key => $value) {
-            if ($key) {
-                $values [$key] = $value;
-            }
-        }
+        // on récupère les données transmises par le formulaire
+        $postValues = $this->request()->post;
 
+        // on vérifie qu'elles correspondent à Post
+        $values = $this->chekPostData($postValues);
         $this->getPostsRepository()->updatePost($idPost, $values);
         $this->getPostAdmin($idPost);
     }

@@ -11,26 +11,33 @@ use DateTimeZone;
  *
  * @author marion
  */
-class PostsRepository extends Db {
+class PostsRepository extends Db
+{
     protected $table = 'post';
 
     /**
      * @param $id
      * @return bool
      */
-    public function postExist($id){
-        return $this->exist($this->table,$id);
+    public function postExist($id)
+    {
+        return $this->exist($this->table, $id);
     }
 
-    public function getPosts() {
+    public function getPosts()
+    {
         return $this->callDbRead([$this->table]);
     }
 
-    public function getPost($id) {
-        return $this->callDbRead([$this->table,['id' => $id]])[0];
+    public function getPost($id)
+    {
+        if (isset($id)) {
+            return $this->callDbRead([$this->table, ['id' => $id]])[0];
+        }
     }
 
-    public function setDisplayed() {
+    public function setDisplayed()
+    {
         $posts = $this->getPosts();
         $displayedPosts = [];
         foreach ($posts as $post) {
@@ -42,7 +49,7 @@ class PostsRepository extends Db {
             }
         }
         // on transforme $displayedPosts en string
-        if(!$displayedPosts){
+        if (!$displayedPosts) {
             return;
         }
         $displayedPosts = implode(',', $displayedPosts);
@@ -53,27 +60,32 @@ class PostsRepository extends Db {
         return $req->fetchAll();
     }
 
-    public function getDisplayedPosts() {
+    public function getDisplayedPosts(bool $asc = true)
+    {
         $this->setDisplayed();
-        return $this->callDbRead([$this->table, ['displayed_status' => 1], 'date_display']);
+        return $this->callDbRead([$this->table, ['displayed_status' => 1], 'date_display ' . ($asc ? 'asc' : 'desc')]);
     }
 
-    public function createPost($values) {
+    public function createPost($values)
+    {
         $this->callDbCreate([$this->table, $values]);
     }
 
-    public function nbDisplayPost() {
+    public function nbDisplayPost()
+    {
         $this->setDisplayed();
         $request = "SELECT COUNT(*) FROM $this->table WHERE `displayed_status`= 1";
         $req = $this->query($request);
-            return (int)$req->fetchAll()[0][0];
+        return (int)$req->fetchAll()[0][0];
     }
 
-    public function updatePost($idPost, $values){
+    public function updatePost($idPost, $values)
+    {
         $this->callDbUpdate([$this->table, $values, ['id' => $idPost]]);
     }
 
-    public function deletePost($idPost){
+    public function deletePost($idPost)
+    {
         $this->callDbDelete([$this->table, ['id' => $idPost]]);
     }
 

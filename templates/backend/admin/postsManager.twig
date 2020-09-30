@@ -6,11 +6,10 @@
 <a href="/newPost">+ Ajouter un article</a>
 
 <section class="collapse {{collapse}}" id="getPost">
-    <table class="table table-hover ">
+    <table class="table table-hover table-dark" id="selectUser">
 
         <thead>
         <tr>
-            <th>ID</th>
             <th>Titre</th>
             <th>date de parution</th>
             <th>date de création</th>
@@ -20,15 +19,26 @@
 
         {% for post in posts %}
             <tr onclick="document.location='/postAdmin/{{post.id}}'">
-{#                <a href="/postAdmin/{{post.id}}">#}
-                    <td>{{post.id}}</td>
                     <td>{{post.title}}</td>
                     <td>{{post.date_display|date("d/m/Y")}}</td>
                     <td>{{post.date_insert|date("d/m/Y")}}</td>
                     <td>{{post.content|slice(0,60)}}(...)</td>
-{#                </a>#}
             </tr>
         {% endfor %}
 
     </table>
+
+    <p class="row justify-content-center">
+    <form action="/postSelected" method="post" class="col-11" id="selectResponsivePost"
+          name="postForm">
+        <label for="selectResponsivePost">Sélectionner un article</label>
+
+        <select name="postId" class="form-control col-12" onchange="document.postForm.submit();" id="selectPostAdmin">
+            <option selected></option>
+            {% for postSelected in posts %}
+                <option value="{{ postSelected.id }}" }>{{ postSelected.title }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    </p>
 </section>

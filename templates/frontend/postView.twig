@@ -1,21 +1,23 @@
 {{ include ('template.twig') }}
 {% block content %}
-<h2><strong>{{post.title}}</strong></h2>
+    <img src="/img/imgPost.png" alt="" id="logoPost" class="rounded-circle">
+<h2 class="title"><strong>{{post.title}}</strong></h2>
 <em> Publié le {{post.displayDate|date("d/m/Y")}}</em> par {{post.pseudoAuthor}}<br/>
-{{post.content}}
+{{post.content|nl2br }}
 <section class="comments">
     <br>
     <h3>COMMENTAIRES</h3>
     {% if comments %}
-
-    {% for comment in comments %}
-        <p class="comment">
-            <strong>{{comment.pseudoAuthor}}</strong><em> - publié le {{comment.dateInsert|date("d/m/Y à H:i")}}</em><br/>
-            {{comment.content}}
-        </p><br/>
-    {% endfor %}
-{% else %}
-    <p>{{ noComment }}</p>
+<div class="row justify-content-center">
+        {% for comment in comments %}
+            <section class="card col-lg-3 col-10">
+                <h3 class="card-header">{{comment.pseudoAuthor}} <span id="commentPostInformation">- publié le {{comment.dateInsert|date("d/m/Y à H:i")}}</span></h3>
+                <p class="card-text">{{comment.content}}</p>
+            </section>
+        {% endfor %}
+</div>
+    {% else %}
+        <p>{{ noComment }}</p>
     {% endif %}
 </section>
 <br>
@@ -36,4 +38,5 @@
     {% endif %}
 
 </section>
+
 {% endblock %}

@@ -1,15 +1,18 @@
 {{ include ('template.twig') }}
 {% block content %}
-<h1>Liste des articles</h1>
+<h1 class="title">Blog</h1>
 {% if (content) %}
     <p class=" alert alert-info">{{ content }}</p>
 {% endif %}
-    <ul class="'listPosts">
+    <img src="img/imgBlog.png" alt="" id="logoBlog">
+    <section class="row justify-content-center">
     {% for post in posts %}
-        <li class="listPost">
-            <h3><a href="/post/{{ post.id }}">{{post.title}}</a></h3> publié par <span>{{post.pseudo_author}}</span> le <span>{{post.date_display|date("d/m/Y")}}</span>
-            <p>{{post.content_short}}(...)</p>
-        </li>
+        <section class="card col-lg-3 col-10 align-self-center">
+            <h3 class="card-header text-center"><a href="/post/{{ post.id }}">{{post.title}}</a></h3>
+            <span>publié par {{ post.pseudo_author}} le {{post.date_display|date("d/m/Y")}}</span>
+            <p class="card-text">{{post.content_short}}(...)
+                    <a href="/post/{{ post.id }}" class="link-read">Lire</a></p>
+        </section>
     {% endfor %}
-    </ul>
+    </section>
 {% endblock %}

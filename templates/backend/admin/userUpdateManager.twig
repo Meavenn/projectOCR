@@ -1,4 +1,4 @@
-<form action="/user/{{user.id}}" method="post" class="container">
+<form action="/user/{{user.id}}" method="post" class="container justify-content-center">
 
     {% import 'forms.twig' as forms %}
 
@@ -20,7 +20,7 @@
 
     <p class ="row">
         <label class="col-2">statut </label>
-        <select class="col-6 form-control" name="status" {{ user.status == "superadmin" ? 'disabled' : null }}>
+        <select class="col-lg-6 col-11 form-control" name="status" {{ user.status == "superadmin" ? 'disabled' : null }}>
             <option {{ user.status == "member" ? "selected" : null }} value="member">membre</option>
             <option {{ user.status == "admin" ? "selected" : null }} value ="admin">administrateur</option>
             <option {{ user.status == "superadmin" ? "selected" : null }} value ="superadmin">super administrateur</option>
