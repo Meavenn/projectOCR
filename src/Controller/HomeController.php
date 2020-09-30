@@ -50,22 +50,23 @@ class HomeController extends AbstractController {
     }
 
     public function sendEmail(){
+        $body = $this->request()->post['content'];
+        $from = $this->request()->post['email'];
+        $nameEmail = $this->request()->session['pseudo']?: $from;
+        $subject = $this->request()->post['subject']?: 'J\'ai un nouveau message !';
+
         $transport = (new \Swift_SmtpTransport('smtp.googlemail.com', 465, 'ssl'))
             ->setUsername('mlancien1@gmail.com')
             ->setPassword('Marion84')
         ;
 
-        // Create the Mailer using your created Transport
         $mailer = new \Swift_Mailer($transport);
 
-        // Create a message
-        $message = (new \Swift_Message('Wonderful Subject'))
-            ->setFrom(['mlancien1@gmail.com' => 'Marion Lancien'])
-            ->setTo(['lancien.marion@hotmail.com' => 'Recipient'])
-            ->setBody('Here is the message itself')
-        ;
+        $message = (new \Swift_Message($subject))
+            ->setFrom([(new Home($this->getHomeRepository()->getHomeData()))->getEmail() => 'Moi'])
+            ->setTo([$from => $nameEmail])
+            ->setBody($body);
 
-        // Send the message
         $result = $mailer->send($message);
 
         header('Location: /');

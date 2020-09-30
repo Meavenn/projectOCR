@@ -11,10 +11,10 @@
 
                 {% import 'forms.twig' as forms %}
 
-                <p class ="row">
+                <p class ="row justify-content-center">
                     {{forms.inputLabel('title', 'Titre', 'text', 'required', (home.title))}}
                 </p>
-                <p class ="row">
+                <p class ="row justify-content-center">
                     {{forms.inputLabel('tagline', 'Slogan', 'text', 'required', (home.tagline))}}
                 </p>
         </section>
@@ -28,10 +28,21 @@
         {% import 'forms.twig' as forms %}
 
         <p class ="row">
-            {{forms.textareaLabel('presentation', 'Présentation', 'required', (home.presentation), '', '','','col-10 form-control',10)}}
+            {{forms.textareaLabel('presentation', 'Présentation', 'required', (home.presentation), '', '','col-2','col-lg-6 col-11 form-control',10)}}
         </p>
 
     </section><br>
 
-    <input type="submit" value="modifier">
+    <h2>CONTACT</h2>
+    <section>
+
+        {% import 'forms.twig' as forms %}
+
+        <p class ="row">
+            {{forms.inputLabel('email', 'Email de réception', 'email', 'required', (home.email))}}
+        </p>
+
+    </section><br>
+
+    <input type="submit" value="modifier" class="form-control col-lg-2 col-11">
 </form>

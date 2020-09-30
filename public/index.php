@@ -19,13 +19,13 @@ $router = new Router($request->server['REQUEST_URI']);
 /****** FRONTEND ******/
 
 $router->get('/', 'Home#goHome');
+$router->post('/email', 'Home#sendEmail');
 
 //Affichage des posts et des commentaires
 $router->get('/posts', 'Post#getPosts');
 $router->get('/post/:id', 'Post#getPost')->with('id', '[0-9]+');
 $router->post('/post/:id', 'Comment#addComment')->with('id', '[0-9]+');
 
-$router->post('/email', 'Home#sendEmail');
 
 
 /****** BACKEND ******/
@@ -41,6 +41,7 @@ $router->get('/disconnect', 'User#disconnect');
 // Gestion des profils
 $router->get('/profil', 'User#getUser');
 $router->post('/profil', 'User#updateUser');
+$router->post('/profil/comment/:id', 'User#updateCommentUser')->with('id', '[0-9]+');
 
 // Admins only !
 
@@ -53,6 +54,7 @@ $router->get('/postsAdmin', 'Post#getPostsAdmin');
 $router->get('/newPost', 'Post#newPost');
 $router->post('/postsAdmin', 'Post#createPost');
 $router->get('/postAdmin/:id', 'Post#getPostAdmin')->with('id', '[0-9]+');
+$router->post('/postSelected', 'Post#getPostSelectedAdmin')->with('id', '[0-9]+');
 $router->post('/postAdmin/:id', 'Post#updatePostAdmin')->with('id', '[0-9]+');
 $router->post('/postDelete/:id', 'Post#deletePost')->with('id', '[0-9]+');
 $router->post('/postAdmin/comment/:id', 'Post#updateCommentPostAdmin')->with('id', '[0-9]+');
@@ -65,7 +67,8 @@ $router->post('/comments/comment/:id', 'Comment#updateCommentAdmin')->with('id',
 /* onglet 'Les membres' */
 $router->get('/users', 'User#getUsersAdmin');
 $router->get('/user/:id', 'User#getUserAdmin')->with('id', '[0-9]+');
+$router->post('/userSelected', 'User#getUserSelectedAdmin')->with('id', '[0-9]+');
 $router->post('/user/:id', 'User#updateUserAdmin')->with('id', '[0-9]+');
-
+$router->post('/user/comment/:id', 'User#updateCommentUserAdmin')->with('id', '[0-9]+');
 
 $router->run();

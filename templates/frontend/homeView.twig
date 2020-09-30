@@ -1,45 +1,41 @@
 {{ include ('template.twig') }}
 
-<h1>Page d'accueil</h1>
+<section class='row' id="jumbotronSection">
+    <p class="containerLogo"><img src="{{ home.logo }}" id="logo"></p>
+    <div >
+        <h2 id="tagline">{{ home.tagline }}</h2>
+    </div>
+    <h1 class="title-hover" id="titleHome">{{ home.title }}</h1>
+</section>
 
-<h1>{{home.title}}</h1>
-
-<section class='row'>
-    <img src="{{home.logo}}" width="40%" >
-    <div class="col align-self-end">
-        <blockquote style="font-size: 1.5rem">{{home.tagline}}</blockquote>
+<section id="containerPresentation">
+    <h3 class="title-hover">Présentation</h3>
+    <section class="container">
+    <div class="row">
+        <aside class="col-lg-8 col-12" id="presentation">{{ home.presentation|nl2br }}</aside>
+        <div class="col-lg-4 col-12" id="containerImg">
+            <p class="text-center"><img src="{{ home.photo }}" id="photo" alt="photo"></p>
+            <p class="text-center"><a href="/doc/cv.pdf" target="_blank">Curriculum vitae</a></p>
+        </div>
     </div>
 </section>
-
-<hr>
-
-<section class='row'>
-    <p class="col-8">{{home.presentation}}</p>
-    <img src="{{home.photo}}">
-
 </section>
 
-<hr>
+<section class='row col-12' id="containerEmail">
+    <h3 class="title-hover">Contact</h3>
+    <form action="/email" method="post" class="container form-group formContactHome col-lg-8 col-12">
+    <div>
+        <div class="formContactHome"><label class="form">Adresse mél </label>
+        <input type="email" name="email" class="form-control formContactHome col-12" required><br></div>
 
-<section class='row'>
-    <h3>M'envoyer un message</h3><br/>
-    <form action="/email" method="post" class="container">
-        {% import 'forms.twig' as forms %}
+        <div class="formContactHome"><label class="form">Sujet </label>
+        <input type="text" name="subject" class="form-control formContactHome col-12"><br></div>
 
-        <p class ="row">
-            {{forms.inputLabel('email', 'Adresse mél', 'email', 'required')}}
-        </p>
+        <div class="formContactHome"><label class="form">Message </label>
+        <textarea name="content" class="form-control formContactHome col-12" rows="10" required></textarea><br></div>
 
-        <p class ="row">
-            {{forms.textareaLabel('content', 'Message', 'required')}}
-        </p>
+        <div class="formContactHome"><label class="form"></label><input type="submit" value="Envoyer" class="form-control col-lg-2 col-12"></div>
 
-        <p class ="row">
-            <input type="submit" value="Envoyer">
-        </p>
-
-
+    </div>
     </form>
-
-
 </section>
