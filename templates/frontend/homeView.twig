@@ -1,7 +1,8 @@
 {{ include ('template.twig') }}
+<p class="alert alert-light">{{ alert }}</p>
 
 <section class='row' id="jumbotronSection">
-    <p class="containerLogo"><img src="{{ home.logo }}" id="logo"></p>
+    <p class="containerLogo"><img src="{{ home.logo }}" id="logo" alt="image"></p>
     <div >
         <h2 id="tagline">{{ home.tagline }}</h2>
     </div>
@@ -15,16 +16,24 @@
         <aside class="col-lg-8 col-12" id="presentation">{{ home.presentation|nl2br }}</aside>
         <div class="col-lg-4 col-12" id="containerImg">
             <p class="text-center"><img src="{{ home.photo }}" id="photo" alt="photo"></p>
+            <p class="text-center"><a href="https://github.com/Meavenn" title="Retrouvez"><img src="img/github.png" id="github" alt="github"></a></p>
             <p class="text-center"><a href="/doc/cv.pdf" target="_blank">Curriculum vitae</a></p>
         </div>
     </div>
-</section>
+    </section>
 </section>
 
 <section class='row col-12' id="containerEmail">
     <h3 class="title-hover">Contact</h3>
     <form action="/email" method="post" class="container form-group formContactHome col-lg-8 col-12">
     <div>
+
+        <div class="formContactHome col-6"><label class="form">Nom </label></div>
+        <input type="text" name="lname" class="form-control formContactHome inputMelName col-lg-6" required><br>
+
+        <div class="formContactHome col-6"><label class="form">Prénom </label></div>
+        <input type="text" name="fname" class="form-control formContactHome inputMelName col-lg-6" required><br>
+
         <div class="formContactHome"><label class="form">Adresse mél </label>
         <input type="email" name="email" class="form-control formContactHome col-12" required><br></div>
 

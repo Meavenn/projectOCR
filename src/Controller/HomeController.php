@@ -1,73 +1,86 @@
 <?php
+
 namespace App\Controller;
 
 use App\Model\Home;
 use App\Model\Repository\HomeRepository;
-use App\Model\Repository\UsersRepository;
-use App\Model\User;
-
-require_once '../vendor/autoload.php';
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
 
 /**
  * Cette classe permet d'afficher la page d'accueil
  *
  * @author marion
  */
-class HomeController extends AbstractController {
-    private function getHomeModel() {
+class HomeController extends AbstractController
+{
+    private function getHomeModel()
+    {
         return new Home(NULL);
     }
 
-    private function getHomeRepository() {
+    private function getHomeRepository()
+    {
         return new HomeRepository();
     }
 
-    public function goHome() {
-        $aTwig = [
+    public function goHome()
+    {
+        $aTwig = $this->getATwig([
             'home' => new Home($this->getHomeRepository()->getHomeData())
-        ];
-        include '../config/includeTwig.php';
-        echo $twig->render('/frontend/homeView.twig', $aTwig);
+        ]);
+        return $this->twig()->render('/frontend/homeView.twig', $aTwig);
     }
 
-    public function getHomeAdmin() {
-        $aTwig = [
-            'home' => new Home($this->getHomeRepository()->getHomeData()),
-            'collapse' => 'show'
-        ];
+    public function getHomeAdmin()
+    {
+        if ($this->getIdConnect()) {
+            $aTwig = $this->getATwig([
+                'home' => new Home($this->getHomeRepository()->getHomeData()),
+                'collapse' => 'show'
+            ]);
 
-        include '../config/includeTwig.php';
-        echo $twig->render('/backend/admin/homeManager.twig', $aTwig);
+            return $this->twig()->render('/backend/admin/homeManager.twig', $aTwig);
+        }
+            header('Location: /connect/login');
+
     }
 
-    public function updateHomeAdmin() {
+    public function updateHomeAdmin()
+    {
+        if ($this->getIdConnect()) {
         $values = [];
         foreach ($this->request()->post as $key => $value) {
             $values [$key] = $value;
         }
         $this->getHomeRepository()->updateHomeData($values);
         $this->getHomeAdmin();
+        } else {
+            header('Location: /connect/login');
+        }
+
     }
 
-    public function sendEmail(){
+    public function sendEmail()
+    {
         $body = $this->request()->post['content'];
         $from = $this->request()->post['email'];
-        $nameEmail = $this->request()->session['pseudo']?: $from;
-        $subject = $this->request()->post['subject']?: 'J\'ai un nouveau message !';
+        $nameEmail = 'Message de ' . $this->request()->post['fname'] . ' ' . $this->request()->post['lname'];
+        $subject = $this->request()->post['subject'] ?: 'J\'ai un nouveau message !';
 
-        $transport = (new \Swift_SmtpTransport('smtp.googlemail.com', 465, 'ssl'))
-            ->setUsername('mlancien1@gmail.com')
-            ->setPassword('Marion84')
-        ;
+        $transport = (new Swift_SmtpTransport('smtp.googlemail.com', 465, 'ssl'))
+            ->setUsername($this->getHomeRepository()->getEmailLogin()['username'])
+            ->setPassword($this->getHomeRepository()->getEmailLogin()['password']);
 
-        $mailer = new \Swift_Mailer($transport);
+        $mailer = new Swift_Mailer($transport);
 
-        $message = (new \Swift_Message($subject))
+        $message = (new Swift_Message($subject))
             ->setFrom([(new Home($this->getHomeRepository()->getHomeData()))->getEmail() => 'Moi'])
             ->setTo([$from => $nameEmail])
             ->setBody($body);
 
-        $result = $mailer->send($message);
+        $mailer->send($message);
 
         header('Location: /');
     }

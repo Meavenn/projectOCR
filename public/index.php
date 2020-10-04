@@ -5,13 +5,8 @@ session_start();
 require_once '../vendor/autoload.php';
 require_once '../src/router/Router.php';
 
-$loader = new \Twig\Loader\FilesystemLoader('../templates');
-$twig = new \Twig\Environment($loader, []);
-
 use App\router\Router;
 use App\Http\Request;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
 $request = new Request();
 $router = new Router($request->server['REQUEST_URI']);
@@ -71,4 +66,4 @@ $router->post('/userSelected', 'User#getUserSelectedAdmin')->with('id', '[0-9]+'
 $router->post('/user/:id', 'User#updateUserAdmin')->with('id', '[0-9]+');
 $router->post('/user/comment/:id', 'User#updateCommentUserAdmin')->with('id', '[0-9]+');
 
-$router->run();
+echo $router->run();

@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Http\Request;
+use App\Model\Repository\PostsRepository;
 use App\Model\Repository\UsersRepository;
 
 /**

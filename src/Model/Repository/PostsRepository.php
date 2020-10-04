@@ -21,6 +21,7 @@ class PostsRepository extends Db
      */
     public function postExist($id)
     {
+
         return $this->exist($this->table, $id);
     }
 
@@ -50,7 +51,7 @@ class PostsRepository extends Db
         }
         // on transforme $displayedPosts en string
         if (!$displayedPosts) {
-            return;
+            return null;
         }
         $displayedPosts = implode(',', $displayedPosts);
         //on update le champ displayed_status de la table post

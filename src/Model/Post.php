@@ -3,6 +3,8 @@
 namespace App\Model;
 
 
+use DateTime;
+
 /**
  * Cette classe permet de représenter un post
  *
@@ -68,18 +70,22 @@ class Post extends AbstractModel {
         return $this->date_mod;
     }
 
-    /***** SETTER ******/
-    /**
-     * @param mixed $id
-     * @return Post
-     */
+    /***** SETTER *****
 
+     /**
+     * @param int $id
+     * @return int
+     */
     public function setId(int $id) {
         if (isset($id)) {
             return $this->id =(int)htmlspecialchars($id);
         }
     }
 
+    /**
+     * @param int $idAuthor
+     * @return string
+     */
     public function setId_author(int $idAuthor) {
         if (isset($idAuthor)) {
             return $this->id_author = htmlspecialchars($idAuthor);
@@ -182,11 +188,11 @@ class Post extends AbstractModel {
     /**
      * @return false|string
      */
-    public function setDate_insert($dateInsert) {
-        if ($dateInsert) {
-            return $this->date_insert = $dateInsert;
+    public function setDate_insert() {
+        if (!empty($this->getId())) {
+            return $this->date_insert = $this->getDateInsert();
         } else {
-            return new \DateTime();
+            return new DateTime();
         }
     }
 
@@ -194,6 +200,6 @@ class Post extends AbstractModel {
      *
      */
     public function setDate_mod() {
-        return $this->date_mod = new \DateTime();
+        return $this->date_mod = new DateTime();
     }
 }

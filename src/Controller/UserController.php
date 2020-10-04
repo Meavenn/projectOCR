@@ -7,6 +7,7 @@ use App\Model\Repository\CommentsRepository;
 use App\Model\Repository\PostsRepository;
 use App\Model\Repository\UsersRepository;
 use App\Model\User;
+use http\Exception;
 
 /**
  * Cette classe permet
@@ -36,10 +37,8 @@ class UserController extends AbstractController
 
     public function createAccount()
     {
-        include '../config/includeTwig.php';
-        echo $twig->render('/backend/newUserView.twig', [
-            'session' => $this->request()->session
-        ]);
+        $aTwig = $this->getATwig();
+        return $this->twig()->render('/backend/newUserView.twig', $aTwig);
     }
 
     public function addUser()
@@ -53,15 +52,13 @@ class UserController extends AbstractController
 
         $users = $this->getUsersRepository()->getUsers();
 
-        // if there is already an account with this pseudo, it can't be created
+        // Si un compte existe déjà avec ce pseeudo, la création est bloquée et un message est affiché
         foreach ($users as $user) {
             if ($user['pseudo'] == $values['pseudo']) {
-                include '../config/includeTwig.php';
-                echo $twig->render('/backend/newUserView.twig', [
-                    'alert' => "Le pseudo existe déjà. Veuillez en choisir un autre ou vous connecter.",
-                    'session' => $this->request()->session
+                $aTwig = $this->getATwig([
+                    'alert' => "Le pseudo existe déjà. Veuillez en choisir un autre ou vous connecter."
                 ]);
-                die();
+                return $this->twig()->render('/backend/newUserView.twig', $aTwig);
             }
         }
         // on vérifie que les données correspondent à la class User
@@ -70,16 +67,18 @@ class UserController extends AbstractController
         // on lance la requête d'insertion
         $this->getUsersRepository()->createUser($values);
 
+        //on ajoute a posteriori l'id dun nouvel utilisateur dans le champ login_insert
+        $this->getUsersRepository()->updateLoginInsertNewUser();
+
         header('Location: /connect/login');
     }
 
     public function connectInterface(User $user = NULL)
     {
-        include '../config/includeTwig.php';
-        echo $twig->render('/backend/loginView.twig', [
-            'user' => $user,
-            'session' => $this->request()->session
+        $aTwig = $this->getATwig([
+            'user' => $user
         ]);
+        return $this->twig()->render('/backend/loginView.twig', $aTwig);
     }
 
     public function newSession()
@@ -91,13 +90,12 @@ class UserController extends AbstractController
 
         // on vérifie que les données correspondent à la class User
         if (!$this->getUserModel()->checkData($values)) {
-            echo 'La connexion a échoué.';
+            header('Location: /connect/login');
         } else {
             // on récupère l'ID correspondant au pseudo et on instancie un User
 
             try {
                 $idUser = $this->getUsersRepository()->getId("'" . $values['pseudo'] . "'");
-                $user = $this->setUser($idUser);
             } catch (\Exception $e) {
                 die('Error : ' . $e->getMessage());
             }
@@ -106,7 +104,11 @@ class UserController extends AbstractController
             // on compare le mot de passe saisi à celui en base de données
             $isPassword = password_verify($values['password'], $user->getPassword());
             if (!$isPassword) {
-                echo 'Le mot de passe est incorrect.';
+                $aTwig = $this->getATwig([
+                    'alert' => 'La connexion a échoué.'
+                ]);
+                return $this->twig()->render('/backend/loginView.twig', $aTwig);
+
             } else {
                 $_SESSION['pseudo'] = $user->getPseudo();
                 $_SESSION['id'] = $user->getId();
@@ -125,17 +127,16 @@ class UserController extends AbstractController
 
     public function getUser() // GET
     {
-        $idUser = $this->getIdConnect();
-        if ($idUser) {
-            $aTwig = [
-                'user' => $this->setUser($idUser),
+        if ($this->getIdConnect()) {
+            $aTwig = $this->getATwig([
+                'user' => $this->setUser($this->getIdConnect()),
                 'users' => $this->getUsersRepository()->getUsers(),
-                'comments' => (new CommentsRepository())->getCommentsAuthor($idUser),
+                'comments' => (new CommentsRepository())->getCommentsAuthor($this->getIdConnect()),
                 'posts' => (new PostsRepository())->getPosts()
-            ];
+            ]);
+            return $this->twig()->render('/backend/accountManager.twig', $aTwig);
 
-            include '../config/includeTwig.php';
-            echo $twig->render('/backend/accountManager.twig', $aTwig);
+
         } else {
             header('Location: /connect/login');
         }
@@ -143,7 +144,6 @@ class UserController extends AbstractController
 
     public function updateUserRequest($data, User $user) // POST
     {
-        //include '../config/includeTwig.php';
         $values = [];
         foreach ($data as $column => $value) {
             $values[$column] = htmlspecialchars($value);
@@ -153,15 +153,15 @@ class UserController extends AbstractController
         } else {
             $values['password'] = password_hash($values['password'], PASSWORD_DEFAULT);
         }
-        try {
-            // on vérifie que les données correspondent à la class User
-            $this->getUserModel()->checkData($values);
+        $values['date_mod'] = date('Y-m-d H:i:s');
+        $values['login_mod'] = $this->getIdConnect();
 
-            // on lance la requête de modification
-            $this->getUsersRepository()->updateUser($values, ['id' => $user->getId()]);
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
+        // on vérifie que les données correspondent à la class User
+        $this->getUserModel()->checkData($values);
+
+        // on lance la requête de modification
+        $this->getUsersRepository()->updateUser($values, ['id' => $user->getId()]);
+
     }
 
     public function updateUser() // POST
@@ -174,31 +174,38 @@ class UserController extends AbstractController
 
     public function updateUserAdmin() // POST
     {
-        $this->updateUserRequest($this->idUrl);
-        $this->getUserAdmin($this->idUrl);
+        $data = $this->request()->post;
+        $user = $this->setUser($data['id']);
+        $this->updateUserRequest($data, $user);
+        header('Location: /user/' . $data['id']);
     }
 
     public function getUsersAdmin() // GET
     {
-        if ($this->isAdmin()) {
-            $aTwig = [
-                'users' => $this->getUsersRepository()->getUsers()
-            ];
+        if ($this->getIdConnect()) {
+            if ($this->isAdmin()) {
+                $aTwig = $this->getATwig([
+                    'users' => $this->getUsersRepository()->getUsers()
+                ]);
 
-            include '../config/includeTwig.php';
-            echo $twig->render('/backend/admin/usersManager.twig', $aTwig);
-        } else {
-            if ($this->getIdConnect()) {
-                $this->getUser();
+                return $this->twig()->render('/backend/admin/usersManager.twig', $aTwig);
             } else {
-                header('Location: /connect/login');
+                if ($this->getIdConnect()) {
+                    $this->getUser();
+                } else {
+                    header('Location: /connect/login');
+                }
             }
+        } else {
+            header('Location: /connect/login');
         }
     }
 
-    public function getUserSelectedAdmin(){
+    public function getUserSelectedAdmin()
+    {
         $this->getUserAdmin($this->request()->post['userId']);
-}
+    }
+
 
     public function getUserAdmin($idUser)
     {
@@ -207,15 +214,14 @@ class UserController extends AbstractController
             if ($User) {
                 $this->getUsersAdmin();
 
-                $aTwig = [
+                $aTwig = $this->getATwig([
                     'comments' => (new CommentsRepository())->getCommentsAuthor($idUser),
                     'posts' => (new PostsRepository())->getPosts(),
                     'users' => $this->getUsersRepository()->getUsers(),
                     'user' => $User
-                ];
+                ]);
 
-                include '../config/includeTwig.php';
-                echo $twig->render('/backend/admin/userUpdateManager.twig', $aTwig);
+                return $this->twig()->render('/backend/admin/userUpdateManager.twig', $aTwig);
 
             } else {
                 $this->getUsersAdmin();
@@ -225,17 +231,17 @@ class UserController extends AbstractController
         }
     }
 
-    public function updateCommentUserAdmin($idComment){
+    public function updateCommentUserAdmin($idComment)
+    {
         $Comment = new Comment((new CommentsRepository())->getComment($idComment));
         (new CommentController())->updateComment($idComment);
 
-        header('Location: /user/'.$Comment->getIdAuthor());
+        header('Location: /user/' . $Comment->getIdAuthor());
     }
 
-    public function updateCommentUser($idComment){
-        $Comment = new Comment((new CommentsRepository())->getComment($idComment));
+    public function updateCommentUser($idComment)
+    {
         (new CommentController())->updateComment($idComment);
-
 
         header('Location: /profil');
     }

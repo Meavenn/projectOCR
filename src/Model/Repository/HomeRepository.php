@@ -20,7 +20,7 @@ class HomeRepository extends Db {
         try {
             $this->callDbUpdate([$this->table, $values, ['id'=>1]]);
         } catch (\Exception $e) {
-            die('Error : ' . $e->getMessage());
+            header('Location: /home');
         }
     }
 }

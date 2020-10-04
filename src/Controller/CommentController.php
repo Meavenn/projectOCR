@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Model\Comment;
@@ -6,7 +7,7 @@ use App\Model\CommentStatus;
 use App\Model\Repository\CommentsRepository;
 use App\Model\Repository\PostsRepository;
 use App\Model\Repository\UsersRepository;
-use App\Model\User;
+use Exception;
 
 /**
  * Cette classe permet d'appeler les méthodes d'un objet Comment dont le résultat pourra être retourné via l'index
@@ -15,25 +16,21 @@ use App\Model\User;
  *
  *
  */
-class CommentController extends AbstractController {
-    // ajouter un comment
-    // afficher les comments
-    // afficher les comments liés à un article
-    // afficher les comments liés à un user
-    // afficher les comments selon leur statut
-    // modifier un comment
-    // supprimer un comment
-    // pas réellement supprimer = afficher à la place: "commentaire supprimé le ... "
+class CommentController extends AbstractController
+{
 
-    private function getCommentModel() {
+    private function getCommentModel()
+    {
         return new Comment();
     }
 
-    private function getCommentsRepository() {
+    private function getCommentsRepository()
+    {
         return new CommentsRepository();
     }
 
-    public function getDisplayedComments($idPost) {
+    public function getDisplayedComments($idPost)
+    {
         $comments = $this->getCommentsRepository()->getCommentsPost($idPost);
         $Comments = [];
         foreach ($comments as $comment) {
@@ -45,7 +42,8 @@ class CommentController extends AbstractController {
         return $Comments;
     }
 
-    public function getComments($idPost) {
+    public function getComments($idPost)
+    {
         $comments = $this->getCommentsRepository()->getCommentsPost($idPost);
         $Comments = [];
         foreach ($comments as $comment) {
@@ -55,14 +53,15 @@ class CommentController extends AbstractController {
         return $Comments;
     }
 
-    public function addComment($idPost) {
+    public function addComment($idPost)
+    {
         $idUser = $this->getIdConnect() ?: header('Location: /connect/login');
         $User = $this->getCommentModel()->getUser($idUser);
 
         $idPost = (int)$idPost ?: header('Location: /posts');
 
         if (!isset($this->request()->post['content'])) {
-            throw new \Exception(' Le commentaire n\'a pas été ajouté.');
+            throw new Exception(' Le commentaire n\'a pas été ajouté.');
         }
 
         $values = [];
@@ -70,9 +69,9 @@ class CommentController extends AbstractController {
             $values[$column] = htmlspecialchars($value);
         }
         $values += [
-            'id_post'          => $idPost,
-            'id_author'        => $idUser,
-            'pseudo_author'    => $User->getPseudo(),
+            'id_post' => $idPost,
+            'id_author' => $idUser,
+            'pseudo_author' => $User->getPseudo(),
             'displayed_status' => $this->getCommentModel()->isAdmin() ? 'granted' : 'pending'
         ];
 
@@ -87,7 +86,8 @@ class CommentController extends AbstractController {
         }
     }
 
-    public function updateComment(int $id) {
+    public function updateComment(int $id)
+    {
         $values = [];
         foreach ($this->request()->post as $column => $value) {
             $values[$column] = $value;
@@ -98,49 +98,50 @@ class CommentController extends AbstractController {
         }
 
         try {
-//            echo'<pre>';
-//            var_dump($values);
-//            echo'</pre>';
             $this->getCommentsRepository()->updateComment($values, $id);
-        } catch (\Exception $e) {
-            die('Error : ' . $e->getMessage());
+        } catch (Exception $e) {
+            header('Location: /profil');
         }
-        //header ("location: $this->previousPath");
     }
 
-    public function getCommentsAdmin() {
-        $comments = [];
-        foreach ($this->getCommentsRepository()->getComments() as $comment) {
-            $comments[] = new Comment($comment);
+    public function getCommentsAdmin()
+    {
+        if ($this->getIdConnect()) {
+            $comments = [];
+            foreach ($this->getCommentsRepository()->getComments() as $comment) {
+                $comments[] = new Comment($comment);
+            }
+
+            $aTwig = $this->getATwig([
+                'comments' => $comments,
+                'posts' => (new PostsRepository())->getPosts(),
+                'authors' => (new UsersRepository())->getUsers()
+            ]);
+
+            return $this->twig()->render('/backend/admin/commentsManager.twig', $aTwig);
         }
+            header('Location: /connect/login');
 
-        $aTwig = [
-            'comments' => $comments,
-            'posts'    => (new PostsRepository())->getPosts(),
-            'authors'  => (new UsersRepository())->getUsers()
-        ];
-
-        include '../config/includeTwig.php';
-        echo $twig->render('/backend/admin/commentsManager.twig', $aTwig);
     }
 
-    public function getFilteredComments() {
+    public function getFilteredComments()
+    {
         $condition = [];
         foreach ($this->request()->post as $column => $value) {
             $condition[$column] = "'$value'";
         }
 
-        $aTwig = [
+        $aTwig = $this->getATwig([
             'comments' => $this->getCommentsRepository()->getCondition($condition),
-            'posts'    => (new PostsRepository())->getPosts(),
-            'authors'  => (new UsersRepository())->getUsers()
-        ];
-        include '../config/includeTwig.php';
-        echo $twig->render('/backend/admin/commentsManager.twig', $aTwig);
+            'posts' => (new PostsRepository())->getPosts(),
+            'authors' => (new UsersRepository())->getUsers()
+        ]);
+        return $this->twig()->render('/backend/admin/commentsManager.twig', $aTwig);
     }
 
 
-    public function updateCommentAdmin($idComment){
+    public function updateCommentAdmin($idComment)
+    {
         $this->updateComment($idComment);
         header('Location: /comments');
     }

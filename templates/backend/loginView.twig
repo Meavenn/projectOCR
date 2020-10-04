@@ -3,6 +3,10 @@
 {% block content %}
 <h3 class="title">Se connecter</h3>
 
+    {% if (alert) %}
+        <p class="alert alert-danger">{{ alert }}</p>
+    {%  endif %}
+
 <form action="/connect" method="post" class="container">
     {% import 'forms.twig' as forms %}
 

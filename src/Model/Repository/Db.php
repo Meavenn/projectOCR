@@ -1,19 +1,13 @@
 <?php
 
 namespace App\Model\Repository;
+use App\Config\DBConnectPrivate;
 use App\Http\Request;
-use PDO;
+use Exception;
+use PDOException;
 
-Abstract class Db extends PDO {
+Abstract class Db extends DBConnectPrivate {
 
-    public function __construct($dsn = 'mysql:host=localhost:8889;dbname=P5_blog;charset=utf8', $username = 'root', $passwd = 'mdHjQ36M', $options = NULL)//array(parent::ATTR_ERRMODE => parent::ERRMODE_EXCEPTION))
-    {
-        try {
-            parent::__construct($dsn, $username, $passwd, $options);
-        } catch (\Exception $e) {
-            die('Error : ' . $e->getMessage());
-        }
-    }
 
     protected $request;
 
@@ -22,12 +16,11 @@ Abstract class Db extends PDO {
     }
 
     public function exist($table, $id){
-        if(isset($id) && $id>0){
-            if ($this->callDbCount([$table,['id'=>$id]])[0])
-                return true;
-        }else{
-            return false;
+
+        if ($this->callDbCount([$table,['id'=>$id]])[0]) {
+            return true;
         }
+            return false;
     }
     /************ CRUD **************/
 
@@ -37,7 +30,7 @@ Abstract class Db extends PDO {
      * @param $table  : SQL table's name,  for example 'users'
      * @param $values : associative array,  for example ['name' => 'Dupont']
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function dbCreate($table, $values): array {
         try {
@@ -60,8 +53,8 @@ Abstract class Db extends PDO {
             $req->execute($values);
 
             return $req->fetchAll();
-        } catch (\PDOException $e) {
-            die($e->getMessage());
+        } catch (PDOException $e) {
+            header('Location: /');
         }
     }
 
@@ -98,8 +91,8 @@ Abstract class Db extends PDO {
             @$req->execute([$table, $condition, $order, $datas]);
             //echo"<pre>";var_dump($req->fetchAll());echo"</pre>";
             return $req->fetchAll();
-        } catch (\PDOException $e) {
-            die($e->getMessage());
+        } catch (PDOException $e) {
+            header('Location: /');
         }
     }
 
@@ -140,8 +133,8 @@ Abstract class Db extends PDO {
             @$req->execute([$table, $values, $condition]);
 
             return $req->fetchAll();
-        } catch (\PDOException $e) {
-            die($e->getMessage());
+        } catch (PDOException $e) {
+            header('Location: /');
         }
     }
 
@@ -150,11 +143,7 @@ Abstract class Db extends PDO {
      * @return array
      */
     public function callDbUpdate($params): array {
-        try {
             return call_user_func_array([$this, 'dbUpdate'], $params);
-        } catch (\Exception $e) {
-            die('Error : ' . $e->getMessage());
-        }
     }
 
     /* DELETE */
@@ -179,8 +168,8 @@ Abstract class Db extends PDO {
             $req->execute([$table, $condition]);
 
             return $req->fetchAll();
-        } catch (\PDOException $e) {
-            die($e->getMessage());
+        } catch (PDOException $e) {
+            header('Location: /');
         }
     }
 
@@ -216,8 +205,8 @@ Abstract class Db extends PDO {
             @$req->execute([$table, $condition, $datas]);
 
             return $req->fetchAll();
-        } catch (\PDOException $e) {
-            die($e->getMessage());
+        } catch (PDOException $e) {
+            header('Location: /');
         }
     }
 

@@ -1,14 +1,21 @@
 <?php
 namespace App\Controller;
 
+use App\Config\TwigInitializer;
 use App\Http\Request;
+
 
 /**
  * Cette classe permet
  *
  * @author mario
  */
-abstract class AbstractController {
+abstract class AbstractController extends TwigInitializer {
+
+    public function __construct()
+    {
+
+    }
 
     public function request(){
         return new Request();
@@ -17,10 +24,11 @@ abstract class AbstractController {
     /**
      * @return int
      */
-    public function getIdConnect() :int{
+    public function getIdConnect(){
         if(isset($this->request()->session['id'])){
             return $this->request()->session['id'];
         }
+        return false;
     }
 
     /**
@@ -30,11 +38,13 @@ abstract class AbstractController {
         if(isset($this->idConnect)){
             return $this->request()->session['pseudo'];
         }
+        return false;
     }
 
     public function isAdmin(){
         if($this->request()->session['status']!="member"){
             return true;
         }
+        return false;
     }
 }

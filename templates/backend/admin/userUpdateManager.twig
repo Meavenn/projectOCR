@@ -1,6 +1,11 @@
+{{ include ('backend/admin/usersManager.twig') }}
 <form action="/user/{{user.id}}" method="post" class="container justify-content-center">
 
     {% import 'forms.twig' as forms %}
+
+    <p class ="row">
+        {{forms.input('id', 'hidden', 'required', (user.id))}}
+    </p>
 
     <p class ="row">
         {{forms.inputLabel('lname', 'nom', 'text', 'required', (user.lname))}}
