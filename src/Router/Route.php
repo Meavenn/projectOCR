@@ -2,10 +2,6 @@
 
 namespace App\Router;
 
-use App\controller\PostController;
-use App\controller\CommentController;
-use App\Controller\HomeController;
-
 
 class Route
 
