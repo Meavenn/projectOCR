@@ -7,7 +7,6 @@ use App\Model\Repository\CommentsRepository;
 use App\Model\Repository\PostsRepository;
 use App\Model\Repository\UsersRepository;
 use App\Model\User;
-use http\Exception;
 
 /**
  * Cette classe permet
@@ -97,7 +96,7 @@ class UserController extends AbstractController
             try {
                 $idUser = $this->getUsersRepository()->getId("'" . $values['pseudo'] . "'");
             } catch (\Exception $e) {
-                die('Error : ' . $e->getMessage());
+                header('Location: /connect/login');
             }
             $user = $this->setUser($idUser);
 

@@ -5,7 +5,7 @@ namespace App\Model\Repository;
 use Exception;
 
 /**
- * Cette classe permet de récupérer les informations en base de données à un utilisateur
+ * Cette classe permet de récupérer en base de données  les informations liées à un utilisateur
  *
  * @author marion
  */
@@ -28,7 +28,6 @@ class UsersRepository extends Db {
     /**
      * @param string $pseudo
      * @return mixed|string
-     *                     TODO : revoir pourquoi callDbCount ne fonctionne pas
      */
     public function getId(string $pseudo) {
         if (isset($pseudo)) {
@@ -52,7 +51,7 @@ class UsersRepository extends Db {
         try {
             $this->callDbCreate([$this->table, $values]);
         } catch (Exception $e) {
-            die('Error : ' . $e->getMessage());
+            header('Location: /connect/new');
         }
     }
 
