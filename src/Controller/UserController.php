@@ -97,7 +97,7 @@ class UserController extends AbstractController
             try {
                 $idUser = $this->getUsersRepository()->getId("'" . $values['pseudo'] . "'");
             } catch (Exception $e) {
-                header('Location: /connect/login');
+                header('Location:/connect/login');
             }
             $user = $this->setUser($idUser);
 

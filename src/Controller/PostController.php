@@ -96,10 +96,8 @@ class PostController extends AbstractController
             ]);
 
             return $this->twig()->render('/backend/admin/postsManager.twig', $aTwig);
-        } else {
-            header('Location: /connect/login');
         }
-
+            header('Location: /connect/login');
     }
 
     public function newPost()

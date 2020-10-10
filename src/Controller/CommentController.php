@@ -81,9 +81,8 @@ class CommentController extends AbstractController
 
         if ($granted) {
             header('Location: /post/' . $idPost);
-        } else {
-            header('Location: /posts');
         }
+            header('Location: /posts');
     }
 
     public function updateComment(int $id)
