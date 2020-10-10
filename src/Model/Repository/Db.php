@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Model\Repository;
-use App\Config\DBConnectPrivate;
+use App\Config\DBConnect;
 use App\Http\Request;
 use Exception;
 use PDOException;
 
-Abstract class Db extends DBConnectPrivate {
+Abstract class Db extends DBConnect {
 
 
     protected $request;

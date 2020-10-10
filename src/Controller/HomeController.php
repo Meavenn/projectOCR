@@ -55,7 +55,7 @@ class HomeController extends AbstractController
             $values [$key] = $value;
         }
         $this->getHomeRepository()->updateHomeData($values);
-        $this->getHomeAdmin();
+        return $this->getHomeAdmin();
         } else {
             header('Location: /connect/login');
         }

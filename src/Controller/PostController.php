@@ -61,7 +61,6 @@ class PostController extends AbstractController
         if (!$exist) {
         return $this->getPosts();
         }
-
         //sinon, on instancie un nouvel objet post
         $comments = $this->getDisplayedComments($idPost);
         $aPost = $this->getPostsRepository()->getPost($idPost);
@@ -90,7 +89,6 @@ class PostController extends AbstractController
             }
 
             $posts = $this->getPostsRepository()->getPosts();
-            //$collapse = isset($this->idUrl)?'show': NULL;
 
             $aTwig = $this->getATwig([
                 'collapse' => 'show',
@@ -144,7 +142,7 @@ class PostController extends AbstractController
 
         // on insère les données dans la bdd
         $this->getPostsRepository()->createPost($postValues);
-        $this->getPostsAdmin();
+        return $this->getPostsAdmin();
     }
 
     public function getPostAdmin($idPost)
@@ -152,6 +150,12 @@ class PostController extends AbstractController
         $this->getPostsAdmin();
         if (!isset($idPost) || $idPost < 1) {
             throw new Exception('Cet article n’existe pas !');
+        }
+        $exist = $this->getPostsRepository()->postExist($idPost);
+
+        // si l'id du post n'existe pas, on est redirigé vers la liste des posts
+        if (!$exist) {
+            return $this->getPostsAdmin();
         }
         $comments = $this->getComments($idPost);
 
@@ -190,7 +194,7 @@ class PostController extends AbstractController
             throw new Exception('Cet article n’existe pas !');
         }
         $this->getPostsRepository()->deletePost($idPost);
-        $this->getPostAdmin($idPost);
+        return $this->getPostsAdmin();
     }
 
     public function updateCommentPostAdmin($idComment)

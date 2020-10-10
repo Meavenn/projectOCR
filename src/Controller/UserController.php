@@ -7,6 +7,7 @@ use App\Model\Repository\CommentsRepository;
 use App\Model\Repository\PostsRepository;
 use App\Model\Repository\UsersRepository;
 use App\Model\User;
+use Exception;
 
 /**
  * Cette classe permet
@@ -95,7 +96,7 @@ class UserController extends AbstractController
 
             try {
                 $idUser = $this->getUsersRepository()->getId("'" . $values['pseudo'] . "'");
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 header('Location: /connect/login');
             }
             $user = $this->setUser($idUser);
@@ -168,7 +169,8 @@ class UserController extends AbstractController
         $data = $this->request()->post;
         $user = $this->setUser($this->getIdConnect());
         $this->updateUserRequest($data, $user);
-        $this->getUser();
+        return $this->getUser();
+
     }
 
     public function updateUserAdmin() // POST
@@ -202,14 +204,19 @@ class UserController extends AbstractController
 
     public function getUserSelectedAdmin()
     {
-        $this->getUserAdmin($this->request()->post['userId']);
+        header('Location: /user/' . $this->request()->post['userId']);
     }
 
 
     public function getUserAdmin($idUser)
     {
         if ($this->isAdmin()) {
-            $User = new User ($this->getUsersRepository()->getUser($idUser));
+            try {
+                $User = new User ($this->getUsersRepository()->getUser($idUser));
+            }
+            catch (Exception $e){
+                header('Location: /users');
+            }
             if ($User) {
                 $this->getUsersAdmin();
 

@@ -1,15 +1,17 @@
 <?php
 
 session_start();
-
-require_once '../vendor/autoload.php';
-require_once '../src/router/Router.php';
+ini_set('display_errors',1);
+require_once '/vendor/autoload.php';
+require_once '/src/Http/Request.php';
+require_once '/src/Router/Router.php';
 
 use App\router\Router;
 use App\Http\Request;
 
 $request = new Request();
 $router = new Router($request->server['REQUEST_URI']);
+
 
 /****** FRONTEND ******/
 

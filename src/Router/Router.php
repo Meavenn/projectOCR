@@ -19,7 +19,6 @@ class Router
         $this->request = new Request();
     }
 
-
     public function get($path, $callable, $name = null)
     {
         return $this->add($path, $callable, $name, 'GET');
@@ -42,6 +41,7 @@ class Router
         if ($name) {
             $this->namedRoutes[$name] = $route;
         }
+
         return $route;
     }
 

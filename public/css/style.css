@@ -256,7 +256,7 @@ nav {
 }
 
 /***** MEDIA QUERY *****/
-@media screen and (max-width: 960px) {
+@media (max-width: 960px) {
   /* line 248, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
   body {
     font-size: 0.9rem;
@@ -289,7 +289,7 @@ nav {
   }
   /* line 278, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
   #photo {
-    margin: 5vh;
+    margin: 5vh 0vh;
     opacity: 1;
   }
   /* line 283, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
@@ -337,7 +337,7 @@ nav {
   display: none;
 }
 
-@media screen and (max-width: 720px) {
+@media (max-width: 720px) {
   /* line 327, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
   #titleHome {
     font-size: 1rem;
@@ -349,7 +349,7 @@ nav {
   }
 }
 
-@media screen and (max-width: 540px) {
+@media (max-width: 540px) {
   /* line 339, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
   #logo {
     width: 1080px;

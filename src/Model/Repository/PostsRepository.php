@@ -21,8 +21,15 @@ class PostsRepository extends Db
      */
     public function postExist($id)
     {
+        $exist = false;
 
-        return $this->exist($this->table, $id);
+        $request = "SELECT COUNT(*) FROM $this->table WHERE `id`= $id";
+        $req = $this->query($request);
+        $result = (int)$req->fetchAll()[0][0];
+        if($result > 0){
+            $exist = true;
+    }
+        return $exist;
     }
 
     public function getPosts()
@@ -35,6 +42,8 @@ class PostsRepository extends Db
         if (isset($id)) {
             return $this->callDbRead([$this->table, ['id' => $id]])[0];
         }
+        return [];
+
     }
 
     public function setDisplayed()

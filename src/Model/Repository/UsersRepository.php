@@ -43,7 +43,7 @@ class UsersRepository extends Db {
         if(isset($this->callDbRead([$this->table, ['id' => $id]])[0])){
             return $this->callDbRead([$this->table, ['id' => $id]])[0];
         }
-        return false;
+        return [];
 
     }
 
@@ -59,7 +59,7 @@ class UsersRepository extends Db {
         try {
             $this->callDbUpdate([$this->table, $values, $condition]);
         } catch (Exception $e) {
-            die('Error : ' . $e->getMessage());
+            echo ('Error : ' . $e->getMessage());
         }
     }
 

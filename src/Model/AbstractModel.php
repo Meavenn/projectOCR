@@ -23,6 +23,9 @@ abstract class AbstractModel {
 
     public function __construct(array $data = null) {
         $this->request = new Request();
+//        if(empty($data)){
+//            throw new \Exception('Cette page n\'existe pas');
+//        }
         if (isset($data)){
             $this->hydrate($data);
         }

@@ -32,7 +32,7 @@ class TwigInitializer
     public function twig()
     {
         $this->getATwig();
-        $loader = new FilesystemLoader('../templates');
+        $loader = new FilesystemLoader('templates');
         return $this->twig = new Environment($loader, []);
         }
 
