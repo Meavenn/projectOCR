@@ -1,0 +1,359 @@
+/* COLOR */
+/* FONT */
+/* MEDIA QUERY */
+/* SIZE */
+/* ANIMATION */
+/* line 27, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+body {
+  font-family: "Open sans", sans-serif;
+  margin: 0;
+  padding: 1vw;
+  background-color: #08090b;
+  color: #fefef4;
+}
+
+/* line 35, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+h1, h2, h3 {
+  font-family: "ABeeZee", sans-serif;
+  color: rgba(210, 197, 181, 0.6);
+  transition: all 1500ms cubic-bezier(0, 0.2, 0.02, 2);
+  opacity: 0.9;
+  padding-left: 1vw;
+}
+
+/* line 42, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+h1:hover, h2:hover, h3:hover {
+  transform: scale(1.001, 1);
+  opacity: 1;
+}
+
+/* line 48, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.title {
+  margin-top: 15vh;
+}
+
+/* line 52, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+a {
+  color: rgba(210, 197, 181, 0.6);
+  text-decoration: none;
+  opacity: 0.9;
+  transition: all 1500ms cubic-bezier(0, 0.2, 0.02, 2);
+}
+
+/* line 58, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+a:hover {
+  transform: scale(0.95, 1);
+  color: #fefef4;
+  opacity: 1;
+  text-decoration: none;
+}
+
+/* line 64, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+a .alert-danger {
+  background-color: rgba(210, 197, 181, 0.6);
+}
+
+/*** BLOG ***/
+/* line 70, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.card {
+  margin: 1vw;
+  padding: 0;
+  min-height: 20vh;
+  opacity: 0.95;
+  transition: all 1500ms cubic-bezier(0, 0.2, 0.02, 2);
+}
+
+/* line 77, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.card:hover {
+  opacity: 1;
+}
+
+/* line 82, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.card-body {
+  margin: 1vw;
+  padding: 0;
+  min-height: 20vh;
+  color: #08090b;
+}
+
+/* line 89, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.card-header {
+  background-color: rgba(210, 197, 181, 0.6);
+  color: #08090b;
+  opacity: 0.8;
+}
+
+/* line 95, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.filterCard {
+  background-color: white;
+  color: #08090b;
+  padding: 0.5vw;
+}
+
+/* line 101, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+h3.card-header a {
+  color: #08090b;
+}
+
+/* line 105, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.card-text {
+  color: #08090b;
+  padding: 0.5vw;
+}
+
+/* line 110, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+a.link-read {
+  color: #08090b;
+}
+
+/* line 113, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+a.link-read:hover {
+  color: #08090b;
+  font-weight: bold;
+}
+
+/* line 119, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#logoBlog {
+  position: absolute;
+  height: 20vh;
+  top: 80vh;
+}
+
+/* line 125, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#logoPost {
+  position: absolute;
+  height: 15vh;
+  top: 5vh;
+  left: 80vw;
+  opacity: 0.2;
+}
+
+/* line 133, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#commentPostInformation {
+  font-size: 1rem;
+}
+
+/******** NAVIGATION *******/
+/* line 139, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+nav {
+  background-color: #08090b;
+}
+
+/* line 143, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#navUl {
+  padding-top: 5vh;
+}
+
+/******** HOME *******/
+/* line 150, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#jumbotronSection {
+  height: 95vh;
+}
+
+/* line 155, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#titleHome {
+  font-size: 3rem;
+  position: absolute;
+  top: 10vh;
+  right: 10vh;
+}
+
+/* line 162, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.containerLogo {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* line 171, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#logo {
+  position: absolute;
+  height: 100vh;
+  opacity: 0.8;
+  transition: all 1000ms ease-in-out;
+}
+
+/* line 177, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#logo:hover {
+  opacity: 1;
+}
+
+/* line 182, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#tagline {
+  position: absolute;
+  color: rgba(210, 197, 181, 0.6);
+  top: 20vh;
+  left: 10vw;
+  font-size: 2rem;
+}
+
+/* line 190, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#containerPresentation {
+  margin-top: 10vh;
+  height: 50vh;
+}
+
+/* line 195, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#containerImg {
+  width: 30vh;
+}
+
+/* line 199, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#photo {
+  width: 20vh;
+  height: auto;
+  opacity: 0.5;
+  transition: all 1000ms ease-in-out;
+}
+
+/* line 205, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#photo:hover {
+  opacity: 1;
+}
+
+/* line 209, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#github {
+  width: 30%;
+  height: auto;
+  position: absolute;
+  right: 10%;
+  top: -5vh;
+}
+
+/* line 217, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#containerEmail {
+  height: 50vh;
+}
+
+/***** ADMIN *****/
+/* line 223, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.formContactHome {
+  opacity: 0.9;
+  transition: all 1000ms ease-in-out;
+}
+
+/* line 228, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.formContactHome:focus {
+  opacity: 1;
+}
+
+/* line 232, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.formContactHome:hover {
+  opacity: 1;
+}
+
+/* line 237, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#selectResponsiveUser {
+  display: none;
+}
+
+/* line 241, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+#selectResponsivePost {
+  display: none;
+}
+
+/***** MEDIA QUERY *****/
+@media screen and (max-width: 960px) {
+  /* line 248, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  body {
+    font-size: 0.9rem;
+  }
+  /* line 252, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  h3 {
+    font-size: 1.3rem;
+  }
+  /* line 256, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #navUl {
+    padding-top: 10vh;
+  }
+  /* line 260, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #titleHome {
+    font-size: 2rem;
+    right: 5vh;
+  }
+  /* line 265, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #jumbotronSection {
+    height: 100vh;
+  }
+  /* line 269, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #containerPresentation {
+    height: 100%;
+  }
+  /* line 273, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #tagline {
+    font-size: 2rem;
+    left: 2vw;
+  }
+  /* line 278, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #photo {
+    margin: 5vh;
+    opacity: 1;
+  }
+  /* line 283, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #github {
+    right: 13vw;
+    top: -1vh;
+  }
+  /* line 288, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #containerEmail {
+    margin-left: 1vw;
+    margin-bottom: 20vh;
+  }
+  /* line 293, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  .card {
+    opacity: 1;
+  }
+  /* line 297, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #selectResponsiveUser {
+    display: block;
+  }
+  /* line 301, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #selectUserAdmin {
+    background-color: #fefef4;
+  }
+  /* line 305, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #selectUser {
+    display: none;
+  }
+  /* line 309, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #selectResponsivePost {
+    display: block;
+  }
+  /* line 313, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #selectPostAdmin {
+    background-color: #fefef4;
+  }
+  /* line 317, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #selectPost {
+    display: none;
+  }
+}
+
+/* line 322, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+.displayed {
+  display: none;
+}
+
+@media screen and (max-width: 720px) {
+  /* line 327, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #titleHome {
+    font-size: 1rem;
+  }
+  /* line 332, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #logo {
+    width: 1440px;
+    height: 100vh;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  /* line 339, ../../../../../../../../../../../../../Users/macbook/Documents/GitHub/projectOCR/public/scss/style.scss */
+  #logo {
+    width: 1080px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

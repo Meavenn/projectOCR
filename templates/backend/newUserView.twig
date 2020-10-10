@@ -1,0 +1,29 @@
+{{ include ('template.twig') }}
+    <h3 class="title">Créer un compte</h3>
+{% if (alert) %}
+    <p class="alert alert-danger">{{ alert }}</p>
+{%  endif %}
+
+<form action="/connect/created" method="post" class="container">
+    {% import 'forms.twig' as forms %}
+
+    <p class ="row justify-content-center">
+        {{forms.inputLabel('lname', 'nom', 'text', 'required')}}
+    </p>
+
+    <p class ="row justify-content-center">
+        {{forms.inputLabel('fname', 'prénom', 'text', 'required')}}
+    </p>
+
+    <p class ="row justify-content-center">
+        {{forms.inputLabel('pseudo', 'pseudo', 'text', 'required')}}
+    </p>
+
+    <p class ="row justify-content-center">
+        {{forms.inputLabel('password', 'mot de passe', 'password', 'required')}}
+    </p>
+
+    <input type="submit" class="form-control col-lg-2 col-11">
+
+</form>
+

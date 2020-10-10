@@ -1,0 +1,46 @@
+{{ include ('template.twig') }}
+{{ include ('backend/navAdminView.twig') }}
+
+<h1 data-toggle="collapse" data-target="#memberList" aria-expanded="false" aria-controls="memberList"
+    class="title-hover">LES MEMBRES</h1>
+
+<section class="collapse show" id="memberList">
+    <table class="table table-hover table-dark" id="selectUser">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Pseudo</th>
+            <th>statut</th>
+        </tr>
+        </thead>
+
+        {% for user in users %}
+            <tr onclick="document.location='/user/{{ user.id }}'">
+                <a href="/profil/{{ user.id }}">
+                    <td>{{ user.lname }}</td>
+                    <td>{{ user.fname }}</td>
+                    <td>{{ user.pseudo }}</td>
+                    <td>{{ user.status }}</td>
+                </a>
+            </tr>
+        {% endfor %}
+
+    </table>
+    <p class="row justify-content-center">
+    <form action="/userSelected" method="post" class="col-11" id="selectResponsiveUser"
+          name="userForm">
+        <label for="selectResponsiveUser">Sélectionner un membre</label>
+
+        <select name="userId" class="form-control col-12" onchange="document.userForm.submit();" id="selectUserAdmin">
+            <option selected></option>
+            {% for userSelected in users %}
+                <option value="{{ userSelected.id }}" }>{{ userSelected.pseudo }}</option>
+            {% endfor %}
+        </select>
+    </form>
+    </p>
+
+</section>
+
+

@@ -1,0 +1,19 @@
+{{ include ('template.twig') }}
+{% block content %}
+<h1 class="title">Blog</h1>
+{% if (content) %}
+    <p class=" alert alert-info">{{ content }}</p>
+{% endif %}
+    <img src="img/imgBlog.png" alt="" id="logoBlog">
+    <section class="row justify-content-center">
+    {% for post in posts %}
+        <section class="card col-lg-3 col-10 align-self-center">
+            <h3 class="card-header text-center"><a href="/post/{{ post.id }}">{{post.title}}</a></h3>
+            <span>publié par {{ post.pseudo_author}} le {{post.date_display|date("d/m/Y")}}</span>
+            <p class="card-text">{{post.content_short}}(...)
+                    <a href="/post/{{ post.id }}" class="link-read">Lire</a><br/><br>
+            <em>dernière mise à jour le {{post.date_mod|date("d/m/Y")}}</em></p>
+        </section>
+    {% endfor %}
+    </section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% macro inputLabel(name, label, type, required, value, idName, disabled, collabel, colinput) %}
+
+<label for="{{idName | default('')}}" class="{{collabel | default('col-lg-2 col-12')}}">{{label | default('name')}}</label>
+
+<input name="{{name}}",
+       type="{{type |default('text')}}",
+       value="{{value | default('')}}",
+       id="{{idName | default('')}}",
+       class="{{colinput| default('col-lg-10 col-12 form-control')}}",
+       {{required ?: ''}},
+       {{disabled ?: ''}}
+       >
+
+{% endmacro %}
+
+{% macro input(name, type, required, value, idName, disabled, colinput) %}
+
+<input name="{{name}}",
+       type="{{type |default('text')}}",
+       value="{{value | default('')}}",
+       id="{{idName | default('')}}",
+       class="{{colinput| default('col-12')}}",
+       {{required ?: ''}},
+       {{disabled ?: ''}}
+>
+
+{% endmacro %}
+
+{% macro textareaLabel(name, label, required, value, idName, disabled, collabel, colinput, rows) %}
+
+<label for="{{idName | default('')}}" class="{{collabel | default('col-2')}}">{{label | default('name')}}</label>
+
+<textarea name="{{name}}",
+       id="{{idName | default('')}}",
+       class="{{colinput | default('col-lg-10 col-12 form-control')}}",
+       rows="{{ rows | default('10') }}"
+       {{required ?: ''}},
+       {{disabled ?: ''}}
+       >
+{{value | default('')}}
+</textarea>
+
+{% endmacro %}

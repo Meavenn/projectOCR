@@ -1,0 +1,47 @@
+{{ include ('template.twig') }}
+{% block content %}
+    <img src="/img/imgPost.png" alt="" id="logoPost" class="rounded-circle">
+<h2 class="title"><strong>{{post.title}}</strong></h2>
+<em> Publié le {{post.date_display|date("d/m/Y")}}</em> par {{post.pseudo_author}}<br/><br>
+
+{{post.content|nl2br }}
+
+    <br><em>dernière mise à jour le {{post.date_mod|date("d/m/Y")}}</em>
+<section class="comments">
+    <br>
+    <h3>COMMENTAIRES</h3>
+    {% if comments %}
+<div class="row justify-content-center">
+        {% for comment in comments %}
+            <section class="card col-lg-3 col-10">
+                <h3 class="card-header">{{comment.pseudoAuthor}}
+                    <span id="commentPostInformation">- publié le {{comment.dateInsert|date("d/m/Y à H:i")}}</span>
+                </h3>
+                <p class="card-text">{{comment.content}}</p>
+            </section>
+        {% endfor %}
+</div>
+    {% else %}
+        <p>{{ noComment }}</p>
+    {% endif %}
+</section>
+<br>
+<section class="addComment">
+    <h4>Ajouter un commentaire</h4>
+
+    {% if not session.status %}
+        <p>Pour ajouter un commentaire, <a href="/connect/login">vous devez être connecté</a>.</p>
+    {% else %}
+
+        <form action="/post/{{post.id}}" method="post" class="container">
+            {% import 'forms.twig' as forms %}
+            <p class="row">
+                {{forms.textareaLabel('content', 'commentaire', 'required')}}
+            <p class="row"><input type="submit" value="Ajouter"></p>
+        </form>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

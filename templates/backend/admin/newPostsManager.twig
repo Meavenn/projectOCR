@@ -1,0 +1,29 @@
+<h3 data-toggle="collapse" data-target="#updatePost" aria-expanded="false" aria-controls="updatePost" class="title-hover">
+    L'article</h3>
+<br>
+<section class="collapse show" id="updatePost">
+
+    <form class="col-9" method="post" action="/postsAdmin">
+        {% import 'forms.twig' as forms %}
+
+        <p class ="row">
+            {{forms.inputLabel('title', 'Titre', 'text', 'required')}}
+        </p>
+
+        <p class ="row">
+            {{forms.textareaLabel('content', 'Contenu', 'required')}}
+        </p>
+
+        <p class ="row">
+            {{forms.inputLabel('content_short', 'Chapô', 'text')}}
+        </p>
+
+        <p class ="row">
+            {{forms.inputLabel('date_display', 'date d\'affichage', 'datetime-local')}}
+        </p>
+
+        <input type="submit" value="Ajouter">
+
+    </form>
+
+</section><br>

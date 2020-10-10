@@ -1,15 +1,20 @@
 {
-  "name": "$vendor_name$/$package_name$",
-  "description": "$description$",
-  "minimum-stability": "$stability$",
-  "license": "$license$",
+  "name": "marion/projetocr",
   "authors": [
     {
-      "name": "$author$",
-      "email": "$email$"
+      "name": "Marion",
+      "email": "lancien.marion@hotmail.com"
     }
   ],
+  "autoload" : {
+    "psr-4": {
+      "App\\" : "src/"
+    }
+  },
   "require": {
-    $END$
+    "twig/twig": "^3.0",
+    "swiftmailer/swiftmailer": "^6.0",
+    "ext-pdo": "*",
+    "ext-http": "*"
   }
 }

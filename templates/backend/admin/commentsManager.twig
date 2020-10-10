@@ -1,0 +1,58 @@
+{{ include ('template.twig') }}
+{{ include ('backend/navAdminView.twig') }}
+
+<h1>LES COMMENTAIRES</h1>
+
+<section class=" col-lg-5 col-11">
+    <form method="post" action="/comments" class="form-group filterCard">
+        <h3 data-toggle="collapse" data-target="#filter" aria-expanded="false" aria-controls="filter"
+           class="card-header">Filtrer</h3><br/>
+        <section class="collapse " id="filter">
+            <label>Statut du commentaire : </label>
+            <div>
+                <div class="form-check-inline"><input type="radio" class="form-check-input" value="%" name="displayed_status"
+                  id="statusCommentAll" checked><label for="statusCommentAll" class="form-check-label">Tous</label>
+                </div>
+                <div class="form-check-inline"><input type="radio" class="form-check-input" value='pending' name="displayed_status"
+                  id="statusComment0"><label for="statusComment0" class="form-check-label">En attente</label></div>
+                <div class="form-check-inline"><input type="radio" class="form-check-input" value='granted' name="displayed_status"
+                  id="statusComment1"><label for="statusComment1" class="form-check-label">Validé</label>
+                </div>
+                <div class="form-check-inline"><input type="radio" class="form-check-input" value='rejected' name="displayed_status"
+                  id="statusComment2"><label for="statusComment2" class="form-check-label">Non validé</label></div>
+            </div>
+            <br>
+            <label>Auteur du commentaire : </label>
+            <div>
+                <select class="form-control form-control-sm" name="id_author">
+                    <option value="%">Tous</option>
+                    {% for author in authors %}
+                        <option value={{ author.id }}>{{ author.pseudo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+            <label>Titre de l'article : </label>
+            <div>
+                <select class="form-control form-control-sm" name="id_post">
+                    <option value="%">Tous</option>
+                    {% for post in posts %}
+                        <option value={{ post.id }}>{{ post.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+
+            <input type="submit" class="btn btn-light" value="Appliquer le filtre">
+        </section>
+    </form>
+</section>
+
+
+<section>
+    {% for comment in comments %}
+        <form action="comments/comment/{{ comment.id }}" method="post" class="card" style="margin: 15px">
+            {{ include ('backend/admin/commentsUpdateManager.twig') }}
+        </form>
+    {% endfor %}
+</section>
