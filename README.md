@@ -7,7 +7,7 @@
 * Github: [Meavenn](https://github.com/Meavenn)
 
 ## Configuration
-Ce site a été réalisé sous PHP 7.4 et HTML5.
+Ce site a été réalisé sous PHP 7.4, Twig 3 et HTML5.
 
 ## Installation
 * **Etape 1 :** Transférer les fichiers dans le dossier racine de votre serveur.
